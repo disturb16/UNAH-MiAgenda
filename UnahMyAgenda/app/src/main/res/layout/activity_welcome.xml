@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".HomeTab">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="1dp"
+            android:layout_alignTop="@+id/scrollView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:weightSum="1">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/notis_list"
+                android:layout_width="wrap_content"
+                android:layout_height="210dp"
+                />
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="-2dp">
+
+               <Button
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:id="@+id/moreNews"
+                   android:text="LEER MÁS NOTICIAS"
+                   android:background="@layout/bg_next_class" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="2dp"
+                android:paddingTop="10dp"
+                android:paddingRight="2dp"
+                android:paddingBottom="10dp"
+                android:id="@+id/nextClassView">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/scoresContainer"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:padding="3dp"
+                    card_view:cardUseCompatPadding="true">
+
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Próxima Clase"
+                        android:id="@+id/tituloClase"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:id="@+id/hora"
+                        android:layout_gravity="right|bottom"
+                        android:textSize="30dp"
+                        android:textColor="#000"
+                        android:layout_marginRight="5dp"
+                        android:gravity="bottom" />
+                    <TextView
+                        android:layout_width="230dp"
+                        android:layout_height="66dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:id="@+id/clase"
+                        android:textSize="25dp"
+                        android:layout_gravity="left|bottom"
+                        android:layout_alignBottom="@+id/scoresContainer"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="20dp"
+                        android:inputType="textMultiLine|textCapWords" />
+
+                </android.support.v7.widget.CardView>
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/imageView"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/arrow_right"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="false"
+                    android:layout_alignWithParentIfMissing="false"
+                    android:layout_alignParentBottom="false"
+                    android:layout_alignParentLeft="false" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+    <RelativeLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            />
+    </RelativeLayout>
+</RelativeLayout>

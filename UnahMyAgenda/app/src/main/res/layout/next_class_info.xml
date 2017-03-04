@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:id="@+id/scoresContainer"
+    android:background="#ffd9d9d9">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Clase A"
+        android:id="@+id/clase"
+        android:layout_marginTop="30dp"
+        android:textSize="50dp"
+        android:layout_gravity="left|bottom"
+        android:layout_marginLeft="0dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Próxima Clase"
+        android:id="@+id/tituloClase"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="16:00"
+        android:id="@+id/hora"
+        android:layout_gravity="right|bottom"
+        android:textSize="30dp"
+        android:textColor="#000"
+        android:layout_marginBottom="10dp" />
+
+</android.support.v7.widget.CardView>
+</RelativeLayout>

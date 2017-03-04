@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="1dp"
+    android:id="@+id/root">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scoresContainer"
+        android:padding="10dp"
+        style="@style/forma03_list" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/fecha"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="#ffff7100"/>
+
+            <TextView
+                android:layout_below="@+id/fecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/tituloFecha"
+                android:textSize="20dp"
+                android:layout_alignTop="@+id/hora"
+                android:paddingLeft="10dp"
+                android:gravity="center_vertical"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_below="@+id/tituloFecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/tipoFecha"
+                android:text="asdasdasd"
+                android:paddingLeft="10dp"
+                android:fontFamily="sans-serif-condensed" />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/tipoFecha"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:text="asdasdasd aodhnasdhoasi dasodhaos dsaod hasdh asdj as ñsadofhasdfj osa dfh osad hfoasdfh oisadhf oiasd hfosad"
+                android:paddingLeft="10dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/descripcion"
+                android:textSize="15dp"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginRight="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="..."
+                android:id="@+id/dots"
+                android:gravity="bottom"
+                android:layout_alignBottom="@+id/descripcion"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+</RelativeLayout>

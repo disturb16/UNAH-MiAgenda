@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "481934031321",
+    "firebase_url": "https://unah-mi-agenda-3a350.firebaseio.com",
+    "project_id": "unah-mi-agenda-3a350",
+    "storage_bucket": "unah-mi-agenda-3a350.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481934031321:android:200abf0cd792bdc2",
+        "android_client_info": {
+          "package_name": "com.example.disturb16.unahmyagenda"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "481934031321-p4d0aiki9t1s7o9q2fm5j574m7tnd7re.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOvVYUChcg9zdcgH2TllFmOSzQa0sisAo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
