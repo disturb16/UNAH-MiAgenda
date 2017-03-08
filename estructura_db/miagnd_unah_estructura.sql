@@ -23,11 +23,14 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `miagnd_unah`.`tipo_usuario` (
   `tipoUsuarioID` INT NOT NULL AUTO_INCREMENT,
   `descripcion` VARCHAR(45) NOT NULL,
+  `tipoEstadoID` INT NOT NULL,
   `fechaCreo` DATETIME NOT NULL,
   `fechaElimino` DATETIME NULL,
   `usuarioElimino` INT NULL,
   PRIMARY KEY (`tipoUsuarioID`),
+  INDEX `fkTPUsuarioEstado_idx` (`tipoEstadoID` ASC),
   CONSTRAINT `fkTPUsuarioEstado`
+    FOREIGN KEY (`tipoEstadoID`)
     REFERENCES `miagnd_unah`.`tipo_estado` (`tipoEstadoID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -45,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `miagnd_unah`.`usuarios` (
   `noCuenta` BIGINT(20) NOT NULL,
   `fechaNacimiento` DATETIME NOT NULL,
   `tipoUsuarioID` INT NOT NULL,
+  `profilePicture` LONGTEXT NULL /*DEFAULT 'imagenes/perfil_pictures/perfil_no_photo.png'*/,
   `fechaCreo` DATETIME NOT NULL,
   `fechaElimino` DATETIME NULL,
   `usuarioElimino` INT NULL,
@@ -559,4 +563,6 @@ INSERT INTO tipo_estado (descripcion, fechaCreo) VALUES ('Pendiente', now());
 INSERT INTO tipo_estado (descripcion, fechaCreo) VALUES ('Aprobado', now());
 
 
+INSERT INTO tipo_usuario(descripcion, tipoEstadoID, fechaCreo) VALUES ('Administrador', 1, now());
 INSERT INTO tipo_usuario(descripcion, tipoEstadoID, fechaCreo) VALUES ('Alumno', 1, now());
+INSERT INTO tipo_usuario(descripcion, tipoEstadoID, fechaCreo) VALUES ('Catedratico', 1, now());
