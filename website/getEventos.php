@@ -2,7 +2,7 @@
 
 	include("connection.php");
 
-	$queryUser = mysqli_query($conn,"SELECT * FROM eventos ORDER BY eventID DESC LIMIT 0,5")
+	$queryUser = mysqli_query($conn,"SELECT * FROM eventos ORDER BY eventoID DESC LIMIT 0,5")
 							or die(mysqli_error($conn));
 
 	$count = mysqli_num_rows($queryUser);
@@ -17,9 +17,9 @@
 	else{
 			while($notiData = mysqli_fetch_array($queryUser)){
 
-				$id = $notiData['eventID'];
-				$titulo = $notiData['eventTitle'];
-				$img = "http://unahmiagenda.site88.net/".$notiData['image_portada'];
+				$id = $notiData['eventoID'];
+				$titulo = $notiData['tituloEvento'];
+				$img = "http://unahmiagenda.000webhostapp.com/".$notiData['imagenPortada'];
 				$data .= ",{'eventoID':'$id','titulo':'$titulo','portada':'$img'}";
 			}
 				$data .= "]}";

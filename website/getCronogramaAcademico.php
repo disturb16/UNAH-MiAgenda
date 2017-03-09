@@ -4,9 +4,15 @@
 
 	$mes = date("n"); 
 
-	$qry = mysqli_query($conn, " SELECT c.fechaCalendarioID, c.dateTitle, c.tipoFechaID, c.dateInCalendar, t.tipoFecha_description, c.description
-								FROM CalendarioAcademico c
-								INNER JOIN tipoFechaCalendarioAcademico t on t.tipoFechaID = c.tipoFechaID
+	$qry = mysqli_query($conn, " SELECT c.cronogramaAcademicoID
+										,c.tituloCronograma
+										,c.tituloCronograma
+										,now() as dateInCalendar
+										,t.descripcion as tipoFechaDescripcion
+										,c.description as descripcionCronograma
+								FROM cronogramaAcademico c
+								INNER JOIN tipoFechaCronograma t 
+										on t.tipoFechaCronogramaID = c.tipoFechaCronogramaID
 								WHERE c.month >= '$mes' 
 								ORDER BY dateInCalendar LIMIT 0, 5")
 							    or die(mysqli_error($conn));
@@ -18,13 +24,13 @@
 	else{
 			while($fechaData = mysqli_fetch_array($qry)){
 
-				$id = $fechaData['fechaCalendarioID'];
-				$titulo = utf8_encode($fechaData['dateTitle']);
-				$tipoFecha = $fechaData['tipoFechaID'];
+				$id = $fechaData['cronogramaAcademicoID'];
+				$titulo = utf8_encode($fechaData['tituloCronograma']);
+				$tipoFecha = $fechaData['tipoFechaCronogramaID'];
 				$fecha = new dateTime($fechaData['dateInCalendar']);
 				$stringFecha = $fecha->format("d/m/Y");
-				$tipoFecha = utf8_encode($fechaData["tipoFecha_description"]);
-				$descripcion = utf8_encode($fechaData["description"]);
+				$tipoFecha = utf8_encode($fechaData["tipoFechaDescripcion"]);
+				$descripcion = utf8_encode($fechaData["descripcionCronograma"]);
 				$data .= ",{'fechaID':'$id','titulo':'$titulo','tipoFechaCalendario':'$tipoFecha', 'fecha':'$stringFecha','descripcion':'$descripcion'}";
 			}
 				$data .= "]}";

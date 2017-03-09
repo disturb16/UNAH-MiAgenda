@@ -8,7 +8,7 @@ include("connection.php");
 $user = mysqli_real_escape_string($conn,$obj->{'user'});
 $pwd = md5(mysqli_real_escape_string($conn,$obj->{'pass'}));
 
-$queryUser = mysqli_query($conn,"SELECT * FROM usuarios WHERE noCuenta = '$user' AND password = '$pwd' ")
+$queryUser = mysqli_query($conn,"SELECT * FROM usuarios WHERE noCuenta = '$user' AND pass = '$pwd' ")
 						or die(mysqli_error());
 if (!$queryUser){
 	echo "Error";}

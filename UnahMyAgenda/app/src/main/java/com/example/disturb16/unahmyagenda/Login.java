@@ -60,7 +60,7 @@ public class Login extends ActionBarActivity implements View.OnClickListener{
             case R.id.button:
                 progress = ProgressDialog.show(this, "Cargando",
                         "Iniciando sesion", true);
-                String url = "http://unahmiagenda.site88.net/appConnection.php";
+                String url = "http://unahmiagenda.000webhostapp.com/getUserData.php";
                 usr = user.getText().toString();
                 String pass = pwd.getText().toString();
                 if(usr.length() == 11 ){
@@ -125,9 +125,9 @@ public class Login extends ActionBarActivity implements View.OnClickListener{
                 String JSONResponse =  buffer.toString();
                 JSONObject parentObject = new JSONObject(JSONResponse);
                 //pasar el objecto de Json a un array
-                name = parentObject.getString("name");
-                userID = parentObject.getString("userID");
-                userType = parentObject.getString("userType");
+                name = parentObject.getString("nombres");
+                userID = parentObject.getString("usuarioID");
+                userType = parentObject.getString("tipoUsuarioID");
 
                 //validar login
                 _logged = true;
