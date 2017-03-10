@@ -140,7 +140,7 @@ public class NoticiasAll extends ActionBarActivity {
             if (result != null) {
                 RecyclerView notisHolder = (RecyclerView)findViewById(R.id.rv_notis);
                 notisHolder.setLayoutManager(layoutManager);
-                NewsAdapter adapterNotis = new NewsAdapter(noticias, NoticiasAll.this, "allNews");
+                noticiasAdapter adapterNotis = new noticiasAdapter(noticias, NoticiasAll.this, "allNews");
                 notisHolder.setAdapter(adapterNotis);
                 if (loading.getVisibility() == View.VISIBLE)
                     loading.setVisibility(View.GONE);

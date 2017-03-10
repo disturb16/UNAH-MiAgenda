@@ -88,7 +88,7 @@ public class TabControl extends Fragment {
 
 
     public void addNotiAdapter(View v) {
-        new getNotis(v).execute("http://unahmiagenda.000webhostapp.com/SelectNews.php");
+        new getNotis(v).execute("http://unahmiagenda.000webhostapp.com/getNoticias.php");
     }
 
     private void getEventAdapter(View v) {
@@ -187,7 +187,7 @@ public class TabControl extends Fragment {
                 RecyclerView notisHolder = (RecyclerView) v.findViewById(R.id.notis_list);
                 layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 notisHolder.setLayoutManager(layoutManager);
-                NewsAdapter adapterNotis = new NewsAdapter(noticias, getActivity(), tab);
+                noticiasAdapter adapterNotis = new noticiasAdapter(noticias, getActivity(), tab);
                 notisHolder.setAdapter(adapterNotis);
 
                 Button btnMore = (Button) v.findViewById(R.id.moreNews);
@@ -292,7 +292,7 @@ public class TabControl extends Fragment {
                 RecyclerView notisHolder = (RecyclerView) v.findViewById(R.id.notis_list);
                 layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 notisHolder.setLayoutManager(layoutManager);
-                NewsAdapter adapterNotis = new NewsAdapter(noticias, getActivity(), tab);
+                noticiasAdapter adapterNotis = new noticiasAdapter(noticias, getActivity(), tab);
                 notisHolder.setAdapter(adapterNotis);
                 if (loading.getVisibility() == View.VISIBLE)
                     loading.setVisibility(View.GONE);

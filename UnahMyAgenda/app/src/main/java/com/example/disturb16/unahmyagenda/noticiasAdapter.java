@@ -17,14 +17,14 @@ import java.util.List;
 /**
  * Created by Disturb16 on 18/02/2016.
  */
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NotiViewHolder>{
+public class noticiasAdapter extends RecyclerView.Adapter<noticiasAdapter.NotiViewHolder>{
 
 
     List<NewsModel> noticias;
     Context context;
     String tab;
 
-    NewsAdapter(List<NewsModel> noticia, Context context, String tab){
+    noticiasAdapter(List<NewsModel> noticia, Context context, String tab){
         this.noticias = noticia;
         this.context = context;
         this.tab = tab;
@@ -96,7 +96,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NotiViewHolder
                 @Override
                 public void onClick(View v) {
                     if(tab == "tab1" || tab == "allNews"){
-                        Intent intent = new Intent(context, NewDetail.class);
+                        Intent intent = new Intent(context, contenidoNoticia.class);
                         intent.putExtra("noticiaID", noticias.get(getPosition()).noticiaID);
                         intent.putExtra("titulo", noticias.get(getPosition()).titulo);
                         context.startActivity(intent);

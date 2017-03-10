@@ -27,14 +27,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class NewDetail extends AppCompatActivity {
+public class contenidoNoticia extends AppCompatActivity {
 
 
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
-            if (url.contains("unahmiagenda.site88.net/getContentNew.php")){
+            if (url.contains("unahmiagenda.000webhostapp.com/getContenidoNoticia.php")){
                 view.loadUrl(url);
             }else{
                 Intent browser = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -44,7 +44,6 @@ public class NewDetail extends AppCompatActivity {
         }
     }
 
-    String contentNew;
     String noticiaID;
     WebView mWebView = null;
 
@@ -61,7 +60,7 @@ public class NewDetail extends AppCompatActivity {
         mWebView.getSettings().setDomStorageEnabled(true);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebViewClient( new MyWebViewClient() );
-        mWebView.loadUrl("http://unahmiagenda.site88.net/getContentNew.php?noticiaID="+noticiaID);
+        mWebView.loadUrl("http://unahmiagenda.000webhostapp.com/getContenidoNoticia.php?noticiaID="+noticiaID);
     }
 
     @Override
