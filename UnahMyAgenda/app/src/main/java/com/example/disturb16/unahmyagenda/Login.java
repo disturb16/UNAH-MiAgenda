@@ -1,7 +1,6 @@
 package com.example.disturb16.unahmyagenda;
 
 
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,7 +32,7 @@ public class Login extends ActionBarActivity implements View.OnClickListener{
     String usr;
     TextView msj, register;
     boolean _logged;
-    String name, userID, userType;
+    String name, userID, userType, errCod;
     ProgressDialog progress;
 
 
@@ -77,6 +76,8 @@ public class Login extends ActionBarActivity implements View.OnClickListener{
                 break;
         }
     }
+
+
 
     public class JSONTask extends AsyncTask<String,String, String> {
 
@@ -125,12 +126,14 @@ public class Login extends ActionBarActivity implements View.OnClickListener{
                 String JSONResponse =  buffer.toString();
                 JSONObject parentObject = new JSONObject(JSONResponse);
                 //pasar el objecto de Json a un array
-                name = parentObject.getString("nombres");
+                name = parentObject.getString("nombre");
                 userID = parentObject.getString("usuarioID");
                 userType = parentObject.getString("tipoUsuarioID");
+                errCod = parentObject.getString("errCod");
 
                 //validar login
-                _logged = true;
+                if (errCod.equals("1"))
+                    _logged = true;
 
                 return name;
 
@@ -168,7 +171,7 @@ public class Login extends ActionBarActivity implements View.OnClickListener{
             try {
                 SharedPreferences userData = getSharedPreferences("user", 0);
                 SharedPreferences.Editor editUser = userData.edit();
-                editUser.putString("Name", result);
+                editUser.putString("Name", name);
                 editUser.putString("userID", userID);
                 editUser.putString("userType", userType);
                 editUser.apply();
