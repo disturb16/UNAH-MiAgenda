@@ -269,7 +269,7 @@ public class ClassDetail extends ActionBarActivity implements View.OnClickListen
             LinearLayoutManager layoutManager = new LinearLayoutManager(ClassDetail.this,
                     LinearLayoutManager.VERTICAL, false);
             postsHolder.setLayoutManager(layoutManager);
-            ClassPostsAdapter postsAdapter = new ClassPostsAdapter(posts, context);
+            publicacionClaseAdapter postsAdapter = new publicacionClaseAdapter(posts, context);
             postsHolder.setAdapter(postsAdapter);
             dialog.dismiss();
         }

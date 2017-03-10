@@ -14,13 +14,13 @@ import java.util.List;
 /**
  * Created by Disturb16 on 18/02/2016.
  */
-public class ClassPostsAdapter extends RecyclerView.Adapter<ClassPostsAdapter.postHolder>{
+public class publicacionClaseAdapter extends RecyclerView.Adapter<publicacionClaseAdapter.postHolder>{
 
 
     List<postModel> posts;
     Context context;
 
-   ClassPostsAdapter(List<postModel> posts, Context context){
+   publicacionClaseAdapter(List<postModel> posts, Context context){
         this.posts = posts;
        this.context = context;
     }

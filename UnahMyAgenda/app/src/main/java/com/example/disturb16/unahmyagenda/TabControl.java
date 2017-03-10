@@ -56,7 +56,7 @@ public class TabControl extends Fragment {
                     loading = (RelativeLayout) v.findViewById(R.id.loading);
                     loading.setVisibility(View.VISIBLE);
                     addNotiAdapter(v);
-                    new getNextClass(v).execute("http://www.unahmiagenda.site88.net/getNextClass.php");
+                    new getNextClass(v).execute("http://unahmiagenda.000webhostapp.com/getSiguienteClase.php");
                 }
                 return v;
                 }
@@ -88,15 +88,15 @@ public class TabControl extends Fragment {
 
 
     public void addNotiAdapter(View v) {
-        new getNotis(v).execute("http://www.unahmiagenda.site88.net/SelectNews.php");
+        new getNotis(v).execute("http://unahmiagenda.000webhostapp.com/getNoticias.php");
     }
 
     private void getEventAdapter(View v) {
-        new getEvents(v).execute("http://www.unahmiagenda.site88.net/getEventos.php");
+        new getEvents(v).execute("http://unahmiagenda.000webhostapp.com/getEventos.php");
     }
 
     private void getFechasAdapter(View v) {
-        new getFechas(v).execute("http://www.unahmiagenda.site88.net/getFechasPeriodo.php");
+        new getFechas(v).execute("http://unahmiagenda.000webhostapp.com/getCronogramaAcademico.php");
     }
 
 
@@ -187,7 +187,7 @@ public class TabControl extends Fragment {
                 RecyclerView notisHolder = (RecyclerView) v.findViewById(R.id.notis_list);
                 layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                 notisHolder.setLayoutManager(layoutManager);
-                NewsAdapter adapterNotis = new NewsAdapter(noticias, getActivity(), tab);
+                noticiasAdapter adapterNotis = new noticiasAdapter(noticias, getActivity(), tab);
                 notisHolder.setAdapter(adapterNotis);
 
                 Button btnMore = (Button) v.findViewById(R.id.moreNews);
@@ -292,7 +292,7 @@ public class TabControl extends Fragment {
                 RecyclerView notisHolder = (RecyclerView) v.findViewById(R.id.notis_list);
                 layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 notisHolder.setLayoutManager(layoutManager);
-                NewsAdapter adapterNotis = new NewsAdapter(noticias, getActivity(), tab);
+                noticiasAdapter adapterNotis = new noticiasAdapter(noticias, getActivity(), tab);
                 notisHolder.setAdapter(adapterNotis);
                 if (loading.getVisibility() == View.VISIBLE)
                     loading.setVisibility(View.GONE);
