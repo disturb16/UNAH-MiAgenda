@@ -88,24 +88,24 @@ public class TabControl extends Fragment {
 
 
     public void addNotiAdapter(View v) {
-        new getNotis(v).execute("http://unahmiagenda.000webhostapp.com/getNoticias.php");
+        new getNoticias(v).execute("http://unahmiagenda.000webhostapp.com/getNoticias.php");
     }
 
     private void getEventAdapter(View v) {
-        new getEvents(v).execute("http://unahmiagenda.000webhostapp.com/getEventos.php");
+        new getEventos(v).execute("http://unahmiagenda.000webhostapp.com/getEventos.php");
     }
 
     private void getFechasAdapter(View v) {
-        new getFechas(v).execute("http://unahmiagenda.000webhostapp.com/getCronogramaAcademico.php");
+        new getCronogramaAcademico(v).execute("http://unahmiagenda.000webhostapp.com/getCronogramaAcademico.php");
     }
 
 
 
 
-    public class getNotis extends AsyncTask<String, String, String> {
+    public class getNoticias extends AsyncTask<String, String, String> {
         View v;
 
-        public getNotis(View v) {
+        public getNoticias(View v) {
             this.v = v;
         }
 
@@ -209,10 +209,10 @@ public class TabControl extends Fragment {
 
     }
 
-    public class getEvents extends AsyncTask<String, String, String> {
+    public class getEventos extends AsyncTask<String, String, String> {
         View v;
 
-        public getEvents(View v) {
+        public getEventos(View v) {
             this.v = v;
         }
 
@@ -303,10 +303,10 @@ public class TabControl extends Fragment {
 
     }
 
-    public class getFechas extends AsyncTask<String, String, String> {
+    public class getCronogramaAcademico extends AsyncTask<String, String, String> {
         View v;
 
-        public getFechas(View v) {
+        public getCronogramaAcademico(View v) {
             this.v = v;
         }
 
@@ -341,17 +341,17 @@ public class TabControl extends Fragment {
                 String JSONResponse = buffer.toString();
                 JSONObject parentObject = new JSONObject(JSONResponse);
                 //pasar el objecto de Json a un array
-                JSONArray noticias_array = parentObject.getJSONArray("Fechas");
+                JSONArray cronogramaArray = parentObject.getJSONArray("Fechas");
 
-                for (int i = 1; i < noticias_array.length(); i++) {
-                    JSONObject JsonNew = noticias_array.getJSONObject(i);
+                for (int i = 1; i < cronogramaArray.length(); i++) {
+                    JSONObject JsonNew = cronogramaArray.getJSONObject(i);
                     fechas.add(new CalendarDateModel(JsonNew.getString("fechaID"),
                             JsonNew.getString("titulo"),
                             JsonNew.getString("tipoFechaCalendario"),
                             JsonNew.getString("fecha"),
                             JsonNew.getString("descripcion")));
                 }
-                return "";
+                return "s";
 
 
             } catch (MalformedURLException e) {
@@ -381,7 +381,7 @@ public class TabControl extends Fragment {
                 RecyclerView fechasHolder = (RecyclerView) v.findViewById(R.id.fechas_list);
                 layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 fechasHolder.setLayoutManager(layoutManager);
-                CalendarDatesAdapter adapterFechas = new CalendarDatesAdapter(fechas, getActivity());
+                CronogramaAcademicoAdapter adapterFechas = new CronogramaAcademicoAdapter(fechas, getActivity());
                 fechasHolder.setAdapter(adapterFechas);
                 if (loading.getVisibility() == View.VISIBLE)
                     loading.setVisibility(View.GONE);
