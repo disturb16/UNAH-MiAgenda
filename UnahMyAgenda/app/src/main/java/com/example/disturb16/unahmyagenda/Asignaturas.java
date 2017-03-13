@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Classes extends ActionBarActivity {
+public class Asignaturas extends ActionBarActivity {
 
     RecyclerView ClasesHolder;
     private List<ClassModel> listaclases;
@@ -48,12 +48,12 @@ public class Classes extends ActionBarActivity {
 
         ClasesHolder = (RecyclerView)findViewById(R.id.classes_list);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(Classes.this,
+        LinearLayoutManager layoutManager = new LinearLayoutManager(Asignaturas.this,
                 LinearLayoutManager.VERTICAL, false);
 
         ClasesHolder.setLayoutManager(layoutManager);
 
-        new checkConnection(this).execute("http://www.unahmiagenda.site88.net/");
+        new checkConnection(this).execute("http://www.unahmiagenda.000webhostapp.com/");
     }
 
     @Override
@@ -83,7 +83,7 @@ public class Classes extends ActionBarActivity {
 
                 URL url = new URL(params[0]);
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("userID",params[1]);
+                jsonObject.put("usuarioID",params[1]);
                 String message = jsonObject.toString();
 
                 con = (HttpURLConnection) url.openConnection();
@@ -151,7 +151,7 @@ public class Classes extends ActionBarActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            ClassesAdapter adapter = new ClassesAdapter(listaclases, Classes.this);
+            ClassesAdapter adapter = new ClassesAdapter(listaclases, Asignaturas.this);
             ClasesHolder.setAdapter(adapter);
             dialog.dismiss();
         }
@@ -197,7 +197,7 @@ public class Classes extends ActionBarActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (s != null)
-                new getForma().execute("http://www.unahmiagenda.site88.net/getForma03.php", user);
+                new getForma().execute("http://unahmiagenda.000webhostapp.com/getForma003.php", user);
             else {
                 TextView errorMesj = (TextView) findViewById(R.id.errorMsj);
                 errorMesj.setVisibility(View.VISIBLE);

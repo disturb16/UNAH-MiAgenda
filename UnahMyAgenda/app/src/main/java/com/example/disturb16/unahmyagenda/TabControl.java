@@ -33,7 +33,7 @@ import java.util.List;
 public class TabControl extends Fragment {
 
     private List<NewsModel> noticias;
-    private List<CalendarDateModel> fechas;
+    private List<CornogramaModelo> fechas;
     private View v;
     String tab;
     RelativeLayout loading;
@@ -345,7 +345,7 @@ public class TabControl extends Fragment {
 
                 for (int i = 1; i < cronogramaArray.length(); i++) {
                     JSONObject JsonNew = cronogramaArray.getJSONObject(i);
-                    fechas.add(new CalendarDateModel(JsonNew.getString("fechaID"),
+                    fechas.add(new CornogramaModelo(JsonNew.getString("fechaID"),
                             JsonNew.getString("titulo"),
                             JsonNew.getString("tipoFechaCalendario"),
                             JsonNew.getString("fecha"),
@@ -454,8 +454,6 @@ public class TabControl extends Fragment {
                 try {
                     if (reader != null)
                         reader.close();
-                        /*if (os != null)
-                            os.close();*/
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -470,6 +468,8 @@ public class TabControl extends Fragment {
             RelativeLayout nextClass = (RelativeLayout) v.findViewById(R.id.nextClassView);
             horac = (TextView) v.findViewById(R.id.hora);
             clase = (TextView) v.findViewById(R.id.clase);
+            if (hora == null)
+                hora = "";
             horac.setText(hora + ":00");
             clase.setText(tituloClase);
 
@@ -481,7 +481,7 @@ public class TabControl extends Fragment {
         @Override
         public void onClick(View v) {
             if ((v.getId() == R.id.nextClassView) || (v.getId() == R.id.clase)) {
-                Intent intent = new Intent(getActivity(), ClassDetail.class);
+                Intent intent = new Intent(getActivity(), DetalleClase.class);
                 intent.putExtra("tituloClase", tituloClase);
                 intent.putExtra("seccion", seccion);
                 startActivity(intent);

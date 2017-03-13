@@ -40,7 +40,7 @@ public class NoticiasAll extends ActionBarActivity {
         loading = (RelativeLayout)findViewById(R.id.loading);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        new getNotis().execute("http://www.unahmiagenda.site88.net/SelectNews.php");
+        new getNotis().execute("http://unahmiagenda.000webhostapp.com/getNoticias.php");
     }
 
     @Override
