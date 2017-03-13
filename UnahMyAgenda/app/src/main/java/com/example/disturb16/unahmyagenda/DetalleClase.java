@@ -36,10 +36,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ClassDetail extends ActionBarActivity implements View.OnClickListener {
+public class DetalleClase extends ActionBarActivity implements View.OnClickListener {
 
     RecyclerView postsHolder;
-    private List<postModel> posts;
+    private List<DetallePublicacionModelo> posts;
     TextView teacherName, aula, edificio, codClase, scoreClose, score1, score2, score3, scoreTotal;
     ScrollView svPostData, mainScrollView;
     ProgressDialog dialog;
@@ -97,8 +97,8 @@ public class ClassDetail extends ActionBarActivity implements View.OnClickListen
         dialog = ProgressDialog.show(this, "Cargando contenido",
                 "Por favor espere", true);
         seccion = getIntent().getExtras().getString("seccion");
-        new getDetailsClass(this).execute("http://www.unahmiagenda.site88.net/getDetailsClass.php", seccion);
-        new getScore().execute("http://www.unahmiagenda.site88.net/getClassScore.php", seccion, userID);
+        new getDetalleClase(this).execute("http://unahmiagenda.000webhostapp.com/getDetalleClase.php", seccion);
+        new getScore().execute("http://unahmiagenda.000webhostapp.com/getCalificacionesClase.php", seccion, userID);
 
     }
 
@@ -130,13 +130,16 @@ public class ClassDetail extends ActionBarActivity implements View.OnClickListen
                 break;
 
             case R.id.btnPostData:
-                String url = "http://www.unahmiagenda.site88.net/postClassNew.php";
+                btnPost.setEnabled(false);
+                String url = "http://unahmiagenda.000webhostapp.com/enviarPublicacionClase.php";
                 String titulo = edTitulo.getText().toString();
                 String content = edContent.getText().toString();
                 if(!titulo.isEmpty() && !content.isEmpty()){
+                    dialog = ProgressDialog.show(this, "Publicando...",
+                            "Por favor espere", true);
                     new postClassNew().execute(url,seccion, catedraticoID, titulo, content, getIntent().getExtras().getString("tituloClase"));
                 }else{
-                    Toast.makeText(ClassDetail.this, "Debes llenar todos los campos",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetalleClase.this, "Debes llenar todos los campos",Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -159,12 +162,12 @@ public class ClassDetail extends ActionBarActivity implements View.OnClickListen
     }
 
 
-    public class getDetailsClass extends AsyncTask<String,String,String>{
+    public class getDetalleClase extends AsyncTask<String,String,String>{
 
         String nombreCatedratico, noaula, noedificio, codMateria;
         Context context;
 
-        getDetailsClass(Context context){
+        getDetalleClase(Context context){
             this.context = context;
         }
 
@@ -220,7 +223,7 @@ public class ClassDetail extends ActionBarActivity implements View.OnClickListen
                 JSONArray postsArray = parentObject.getJSONArray("Posts");
                 for (int i= 1; i<postsArray.length();i++){
                     JSONObject post = postsArray.getJSONObject(i);
-                    posts.add(new postModel(post.getString("postTitle"),
+                    posts.add(new DetallePublicacionModelo(post.getString("postTitle"),
                             post.getString("fecha"),
                             post.getString("commentCount"),
                             post.getString("postID")));
@@ -266,7 +269,7 @@ public class ClassDetail extends ActionBarActivity implements View.OnClickListen
             edificio.setText(noedificio);
             codClase.setText(codMateria);
 
-            LinearLayoutManager layoutManager = new LinearLayoutManager(ClassDetail.this,
+            LinearLayoutManager layoutManager = new LinearLayoutManager(DetalleClase.this,
                     LinearLayoutManager.VERTICAL, false);
             postsHolder.setLayoutManager(layoutManager);
             publicacionClaseAdapter postsAdapter = new publicacionClaseAdapter(posts, context);
@@ -356,10 +359,12 @@ public class ClassDetail extends ActionBarActivity implements View.OnClickListen
                 findViewById(R.id.hr).setVisibility(View.VISIBLE);
                 mainInfocontainer.setVisibility(View.VISIBLE);
                 postsHolder.setVisibility(View.VISIBLE);
-                Toast.makeText(ClassDetail.this, "Publicacion exitosa", Toast.LENGTH_LONG).show();
+                Toast.makeText(DetalleClase.this, "Publicacion exitosa", Toast.LENGTH_LONG).show();
+                btnPost.setEnabled(true);
+                dialog.dismiss();
             }
             else
-                Toast.makeText(ClassDetail.this, "Error al publicar",Toast.LENGTH_LONG).show();
+                Toast.makeText(DetalleClase.this, "Error al publicar",Toast.LENGTH_LONG).show();
         }
     }
 

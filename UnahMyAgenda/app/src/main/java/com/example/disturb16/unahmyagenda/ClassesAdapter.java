@@ -88,7 +88,7 @@ public class ClassesAdapter extends RecyclerView.Adapter<ClassesAdapter.materiaH
 
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ClassDetail.class);
+                    Intent intent = new Intent(context, DetalleClase.class);
                     intent.putExtra("tituloClase", materias.get(getPosition()).nombreMateria);
                     intent.putExtra("seccion", materias.get(getPosition()).seccion);
                     context.startActivity(intent);

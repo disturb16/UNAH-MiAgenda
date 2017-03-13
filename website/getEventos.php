@@ -19,7 +19,7 @@
 
 				$id = $notiData['eventoID'];
 				$titulo = $notiData['tituloEvento'];
-				$img = "http://unahmiagenda.000webhostapp.com/".$notiData['imagenPortada'];
+				$img = "http://unahmiagenda.000webhostapp.com/imagenes/portada_eventos/".$notiData['imagenPortada'];
 				$data .= ",{'eventoID':'$id','titulo':'$titulo','portada':'$img'}";
 			}
 				$data .= "]}";

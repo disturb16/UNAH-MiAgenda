@@ -15,14 +15,14 @@ import java.util.List;
 /**
  * Created by Disturb16 on 02/04/2016.
  */
-public class CalendarDatesAdapter extends RecyclerView.Adapter<CalendarDatesAdapter.fechaHolder>{
+public class CronogramaAcademicoAdapter extends RecyclerView.Adapter<CronogramaAcademicoAdapter.fechaHolder>{
 
 
-    List<CalendarDateModel> fechas;
+    List<CornogramaModelo> fechas;
     Context context;
 
 
-    CalendarDatesAdapter(List<CalendarDateModel> fechas, Context context){
+    CronogramaAcademicoAdapter(List<CornogramaModelo> fechas, Context context){
         this.fechas = fechas;
         this.context = context;
     }

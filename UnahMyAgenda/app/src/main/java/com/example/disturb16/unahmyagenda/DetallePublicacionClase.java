@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PostDetail extends ActionBarActivity implements View.OnClickListener {
+public class DetallePublicacionClase extends ActionBarActivity implements View.OnClickListener {
 
     private String postContent;
     private List<CommentsClass> comments;
@@ -53,7 +53,7 @@ public class PostDetail extends ActionBarActivity implements View.OnClickListene
         userID = userData.getString("userID", "");
         postID = getIntent().getExtras().getString("postID");
 
-        new getPostContent().execute("http://www.unahmiagenda.site88.net/getPostContent.php", postID);
+        new getPostContent().execute("http://unahmiagenda.000webhostapp.com/getDetallePublicacionClase.php", postID);
 
     }
 
@@ -86,7 +86,7 @@ public class PostDetail extends ActionBarActivity implements View.OnClickListene
                 progress = ProgressDialog.show(this, "Cargando",
                         "Por favor espera..", true);
 
-                new postComment().execute("http://www.unahmiagenda.site88.net/postComment.php",
+                new postComment().execute("http://unahmiagenda.000webhostapp.com/enviarComentarioPublicacionClase.php",
                         postID, userID, comment);
                 break;
 
@@ -169,7 +169,7 @@ public class PostDetail extends ActionBarActivity implements View.OnClickListene
 
             post.setText(postContent);
             commentsHolder = (RecyclerView)findViewById(R.id.comment_list);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(PostDetail.this,
+            LinearLayoutManager layoutManager = new LinearLayoutManager(DetallePublicacionClase.this,
                     LinearLayoutManager.VERTICAL, false);
             commentsHolder.setLayoutManager(layoutManager);
 
