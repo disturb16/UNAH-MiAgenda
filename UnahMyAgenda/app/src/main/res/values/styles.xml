@@ -57,7 +57,7 @@
 
     <!-- Cancel/warning button style -->
     <style name="AppTheme.btnWarning" parent="Widget.AppCompat.ActionBar">
-        <item name="colorButtonNormal">#f00</item>
+        <item name="colorButtonNormal">#D50000</item>
         <item name="android:textColor">#fff</item>
     </style>
 

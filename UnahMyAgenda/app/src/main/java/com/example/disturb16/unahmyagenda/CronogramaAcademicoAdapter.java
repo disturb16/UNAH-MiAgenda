@@ -18,11 +18,11 @@ import java.util.List;
 public class CronogramaAcademicoAdapter extends RecyclerView.Adapter<CronogramaAcademicoAdapter.fechaHolder>{
 
 
-    List<CalendarDateModel> fechas;
+    List<CornogramaModelo> fechas;
     Context context;
 
 
-    CronogramaAcademicoAdapter(List<CalendarDateModel> fechas, Context context){
+    CronogramaAcademicoAdapter(List<CornogramaModelo> fechas, Context context){
         this.fechas = fechas;
         this.context = context;
     }

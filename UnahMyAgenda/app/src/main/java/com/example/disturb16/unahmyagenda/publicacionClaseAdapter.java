@@ -17,11 +17,11 @@ import java.util.List;
 public class publicacionClaseAdapter extends RecyclerView.Adapter<publicacionClaseAdapter.postHolder>{
 
 
-    List<postModel> posts;
+    List<DetallePublicacionModelo> publicacionesClase;
     Context context;
 
-   publicacionClaseAdapter(List<postModel> posts, Context context){
-        this.posts = posts;
+   publicacionClaseAdapter(List<DetallePublicacionModelo> posts, Context context){
+        this.publicacionesClase = posts;
        this.context = context;
     }
 
@@ -36,20 +36,20 @@ public class publicacionClaseAdapter extends RecyclerView.Adapter<publicacionCla
     public void onBindViewHolder(postHolder holder, int position) {
         final int pos = position;
 
-        holder.titulo.setText(posts.get(position).titulo);
-        holder.fecha.setText(posts.get(position).fecha);
-        if (posts.get(position).commentsCount == "1" )
-            holder.commentsCount.setText(posts.get(position).commentsCount +" comentario");
+        holder.titulo.setText(publicacionesClase.get(position).titulo);
+        holder.fecha.setText(publicacionesClase.get(position).fecha);
+        if (publicacionesClase.get(position).commentsCount == "1" )
+            holder.commentsCount.setText(publicacionesClase.get(position).commentsCount +" comentario");
         else
-            holder.commentsCount.setText(posts.get(position).commentsCount +" comentarios");
+            holder.commentsCount.setText(publicacionesClase.get(position).commentsCount +" comentarios");
         holder.titulo.setSelected(true);
         holder.titulo.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, PostDetail.class);
-                intent.putExtra("titulo", posts.get(pos).titulo);
-                intent.putExtra("postID", posts.get(pos).postID);
+                Intent intent = new Intent(context, DetallePublicacionClase.class);
+                intent.putExtra("titulo", publicacionesClase.get(pos).titulo);
+                intent.putExtra("postID", publicacionesClase.get(pos).postID);
                 context.startActivity(intent);
             }
         });
@@ -58,7 +58,7 @@ public class publicacionClaseAdapter extends RecyclerView.Adapter<publicacionCla
 
     @Override
     public int getItemCount() {
-        return posts.size();
+        return publicacionesClase.size();
     }
 
     @Override

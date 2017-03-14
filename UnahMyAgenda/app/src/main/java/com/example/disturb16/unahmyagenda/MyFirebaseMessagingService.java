@@ -39,7 +39,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification( String tituloClase, String seccion, String messageBody) {
 
-        Intent intent = new Intent(this, ClassDetail.class);
+        Intent intent = new Intent(this, DetalleClase.class);
         intent.putExtra("titulo", tituloClase);
         intent.putExtra("seccion", seccion);
         PendingIntent pendingIntent =  PendingIntent.getActivity( this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

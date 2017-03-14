@@ -1,27 +1,31 @@
 <?php
-$json = file_get_contents('php://input');
-$obj = json_decode($json);
 
-$fecha= date("Y/n/d ");
+	$json = file_get_contents('php://input');
+	$obj = json_decode($json);
+
+	$fecha= date("Y/n/d ");
 
 
-include("connection.php");
+	include("connection.php");
 
-$seccion = mysqli_real_escape_string($conn,$obj->{'seccion'});
-$userID = mysqli_real_escape_string($conn,$obj->{'catedraticoID'});
-$titulo = mysqli_real_escape_string($conn,$obj->{'titulo'});
-$content = mysqli_real_escape_string($conn,$obj->{'content'});
-$tituloClase = mysqli_real_escape_string($conn,$obj->{'tituloClase'});
+	$seccion = mysqli_real_escape_string($conn,$obj->{'seccion'});
+	$userID = mysqli_real_escape_string($conn,$obj->{'catedraticoID'});
+	$titulo = mysqli_real_escape_string($conn,$obj->{'titulo'});
+	$content = mysqli_real_escape_string($conn,$obj->{'content'});
+	$tituloClase = mysqli_real_escape_string($conn,$obj->{'tituloClase'});
 
-$catedratico =   mysqli_fetch_array( mysqli_query($conn, "SELECT catedraticoID FROM catedraticos WHERE userID = '$userID'") );
-$catedraticoID = $catedratico["catedraticoID"];
-$qryInsert = mysqli_query($conn,"INSERT INTO classPosts (seccion, catedraticoID, postContent, postTitle, postDate)
-								VALUES ('$seccion','$catedraticoID','$content', '$titulo', '$fecha')");
+	$catedraticoID = $userID;
+	$qryInsert = mysqli_query($conn,"INSERT INTO publicaciones_asignatura (seccionID, usuarioID, contenidoPublicacion, tituloPublicacion, fechaCreo, tipoEstadoID)
+									VALUES ('$seccion','$catedraticoID','$content', '$titulo', '$fecha', 1)");
 
-if (!$qryInsert){
-	echo "{'success':'0'}";
-}else{
-//send notification
+	if (!$qryInsert){
+		echo "{'success':'0'}";
+		mysqli_close($conn);
+		return;
+	}
+
+
+	//send notification
 	$headers = array(
 	'Authorization: key=AIzaSyDeSjqltnT3m7CbNRSjm17Zu1g1l-TQAwM',
 	'Content-Type: application/json'
@@ -49,9 +53,8 @@ if (!$qryInsert){
    $result = curl_exec($ch);
    curl_close($ch);
 	
-	echo "{'success':'1'}";
-}
+   echo "{'success':'1'}";
 
+   mysqli_close($conn);
 
-mysqli_close($conn);
 ?>

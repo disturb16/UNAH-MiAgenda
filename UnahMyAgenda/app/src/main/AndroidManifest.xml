@@ -42,21 +42,21 @@
             android:name=".NewsFeed"
             android:label="@string/title_activity_news_feed"></activity>
         <activity
-            android:name=".ClassDetail"
+            android:name=".DetalleClase"
             android:label="@string/title_activity_class_detail">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Classes" />
+                android:value=".Asignaturas" />
         </activity>
         <activity
-            android:name=".Classes"
+            android:name=".Asignaturas"
             android:label="Forma 03">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".PostDetail"
+            android:name=".DetallePublicacionClase"
             android:label="@string/title_activity_post_detail"></activity>
         <activity
             android:name=".CreateTicket"
