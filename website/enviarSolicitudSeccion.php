@@ -5,12 +5,11 @@ $obj = json_decode($json);
 $userID = $obj->{'userID'};
 $materiaID = $obj->{'materiaID'};
 $hora = $obj->{'hora'};
-$fecha=date("Y/n/d"); 
 
 include("connection.php");
 
-$qryInsert = mysqli_query($conn,"INSERT INTO materiasrequested (materiaID,userID,hora, dateCreated) 
-													 VALUES ('$materiaID','$userID','$hora','$fecha')");
+$qryInsert = mysqli_query($conn,"INSERT INTO solicitud_seccion (asignaturaID, usuarioID, horaSolicitada, fechaCreo, tipoEstadoID) 
+													 VALUES ('$materiaID','$userID','$hora', now(), 5)");
 
 if (!$qryInsert){
 	echo "{'success':'0'}";

@@ -2,30 +2,31 @@
 
 	include("connection.php");
 
-	$queryUser = mysqli_query($conn,"SELECT materiaID, materia_name FROM materias")
+	$queryAsignatura = mysqli_query($conn,"SELECT asignaturaID
+									        ,descripcion 
+									   FROM asignaturas")
 							or die(mysqli_error($conn));
 
-	$count = mysqli_num_rows($queryUser);
+	$data = '{"Asignaturas":[{"asignaturaID":"none","descripcion":"dummy"}';
 
-	$data = '{"Materias":[{"mateiraID":"none","nombreMateria":"dummy"}';
 
-	$dataArray = [];
-	$i = 0;
+	if (!$queryAsignatura){
+		echo "Error";
+		mysqli_close($conn);
+		return;
+	}
 
-	if (!$queryUser){
-		echo "Error";}
-	else{
-			while($notiData = mysqli_fetch_array($queryUser)){
+	
+	while($notiData = mysqli_fetch_array($queryAsignatura)){
 
-				$id = $notiData['materiaID'];
-				$nombreMateria = utf8_encode($notiData['nombreMateria']);
-				$data .= ",{'materiaID':'$id','nombreMateria':'$nombreMateria'}";
-			}
-				$data .= "]}";
+		$id = $notiData['asignaturaID'];
+		$nombreMateria = utf8_encode($notiData['descripcion']);
+		$data .= ",{'asignaturaID':'$id','descripcion':'$nombreMateria'}";
+	}
+	$data .= "]}";
 				
-			echo $data;
-		}
-		
+	echo $data;
+			
 	mysqli_close($conn);
 
 ?>

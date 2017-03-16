@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements TabHost.OnTabChan
                 break;
 
             case R.id.tickets:
-                startActivity(new Intent(this, CreateTicket.class));
+                startActivity(new Intent(this, CategoriaTicket.class));
                 drawerLayout.closeDrawer(navList);
                 break;
 

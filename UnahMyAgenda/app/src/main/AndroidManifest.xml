@@ -59,7 +59,7 @@
             android:name=".DetallePublicacionClase"
             android:label="@string/title_activity_post_detail"></activity>
         <activity
-            android:name=".CreateTicket"
+            android:name=".CategoriaTicket"
             android:label="@string/title_activity_create_ticket">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -87,15 +87,19 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".Register"
+            android:name=".SolicitudCuenta"
             android:label="@string/title_activity_register">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Login" />
         </activity>
         <activity
-            android:name=".ClassSectionToRequest"
-            android:label="@string/title_activity_request_seccion"></activity>
+            android:name=".SolicitudSeccion"
+            android:label="@string/title_activity_request_seccion">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CategoriaTicket" />
+        </activity>
         <activity
             android:name=".NoticiasAll"
             android:label="@string/title_activity_noticias_all">
