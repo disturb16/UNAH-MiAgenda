@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 
 
-public class CreateTicket extends ActionBarActivity implements View.OnClickListener {
+public class CategoriaTicket extends ActionBarActivity implements View.OnClickListener {
 
     Button btnContinue;
     RadioButton newSeccion;
@@ -52,7 +52,7 @@ public class CreateTicket extends ActionBarActivity implements View.OnClickListe
         switch(v.getId()){
             case R.id.btnTicketNext:
                 if (newSeccion.isChecked()){
-                    startActivity(new Intent(this,ClassSectionToRequest.class));
+                    startActivity(new Intent(this,SolicitudSeccion.class));
                 }
 
                 break;

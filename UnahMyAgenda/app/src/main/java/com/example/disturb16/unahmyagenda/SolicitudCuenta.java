@@ -27,7 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class Register extends ActionBarActivity implements View.OnClickListener {
+public class SolicitudCuenta extends ActionBarActivity implements View.OnClickListener {
 
     Button cancel, register;
     EditText cuenta, name, pwd, pwd2, dateOfBirth, edEmai;
@@ -108,7 +108,7 @@ public class Register extends ActionBarActivity implements View.OnClickListener 
                 break;
 
             case R.id.btnRegister:
-                String url = "http://www.unahmiagenda.site88.net/sendRegisterRequest.php";
+                String url = "http://unahmiagenda.000webhostapp.com/enviarSolicitudCuenta.php";
                 String cta = cuenta.getText().toString();
                 String nombre = name.getText().toString();
                 String edad = dateOfBirth.getText().toString();
@@ -119,18 +119,18 @@ public class Register extends ActionBarActivity implements View.OnClickListener 
                 if ( !cta.isEmpty() && !nombre.isEmpty() && !edad.isEmpty() && !pass1.isEmpty() && !email.isEmpty() ){
                     if (pass1.equals(pass2)){
                         loading.setVisibility(View.VISIBLE);
-                        new sendRegisterRequest().execute(url,cta,nombre,pass1,edad,email);
+                        new enviarSolicitudCuenta().execute(url,cta,nombre,pass1,edad,email);
                     }else
-                        Toast.makeText(Register.this, "Las contraseñas no coinciden", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SolicitudCuenta.this, "Las contraseñas no coinciden", Toast.LENGTH_LONG).show();
                 }else
-                    Toast.makeText(Register.this, "Debes completar todos los campos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SolicitudCuenta.this, "Debes completar todos los campos", Toast.LENGTH_LONG).show();
                 break;
         }
     }
 
 
     //Asycktask para Registrar
-    class sendRegisterRequest extends AsyncTask<String, String, String>{
+    class enviarSolicitudCuenta extends AsyncTask<String, String, String>{
 
         @Override
         protected String doInBackground(String... params) {
@@ -211,14 +211,17 @@ public class Register extends ActionBarActivity implements View.OnClickListener 
             super.onPostExecute(s);
             loading.setVisibility(View.GONE);
             if (s.equals("1")) {
-                Toast.makeText(Register.this,"Solicitud Enviada", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SolicitudCuenta.this,"Solicitud Enviada", Toast.LENGTH_SHORT).show();
                 finish();
             }
             if (s.equals("2")){
-                Toast.makeText(Register.this,"El número de cuenta ya existe", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SolicitudCuenta.this,"El número de cuenta ya existe", Toast.LENGTH_SHORT).show();
+            }
+            if (s.equals("3")){
+                Toast.makeText(SolicitudCuenta.this,"Existe una solicitud pendiente con este número de cuenta", Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(Register.this, "Error al enviar solicitud", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SolicitudCuenta.this, "Error al enviar solicitud", Toast.LENGTH_SHORT).show();
             }
         }
     }

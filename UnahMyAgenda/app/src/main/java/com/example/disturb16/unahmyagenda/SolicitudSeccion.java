@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ClassSectionToRequest extends ActionBarActivity implements View.OnClickListener {
+public class SolicitudSeccion extends ActionBarActivity implements View.OnClickListener {
 
     Spinner seccionSpinner, horasSpinner;
     List<String> materiasArray, horas;
@@ -51,7 +51,7 @@ public class ClassSectionToRequest extends ActionBarActivity implements View.OnC
         seccionSpinner = (Spinner)findViewById(R.id.seccionSpinner);
         horasSpinner = (Spinner)findViewById(R.id.horaSpinner);
 
-        new getClases().execute("http://unahmiagenda.site88.net/getMateriasToRequest.php");
+        new getClases().execute("http://unahmiagenda.000webhostapp.com/getAsignaturaSolicitar.php");
 
         btnSendTicket = (Button) findViewById(R.id.btnSendTicket);
         btnSendTicket.setOnClickListener(this);
@@ -88,15 +88,15 @@ public class ClassSectionToRequest extends ActionBarActivity implements View.OnC
                 int position = seccionSpinner.getSelectedItemPosition();
                 String materiaID = materias.get(position).materiaID;
                 String horaToRequest = horasSpinner.getSelectedItem().toString();
-                String url = "http://gmerse.com/androidTest/requestNewSeccion.php";
+                String url = "http://unahmiagenda.000webhostapp.com/enviarSolicitudSeccion.php";
 
-                new requestNewSeccion().execute(url,userID,materiaID,horaToRequest);
+                new enviarSolicitudSeccion().execute(url,userID,materiaID,horaToRequest);
 
                 break;
         }
     }
 
-    private class requestNewSeccion extends AsyncTask<String, String, String>{
+    private class enviarSolicitudSeccion extends AsyncTask<String, String, String>{
 
         @Override
         protected String doInBackground(String... params) {
@@ -174,10 +174,10 @@ public class ClassSectionToRequest extends ActionBarActivity implements View.OnC
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (s.equals("1")) {
-                Toast.makeText(ClassSectionToRequest.this,"Solicitud Enviada", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SolicitudSeccion.this,"Solicitud Enviada", Toast.LENGTH_SHORT).show();
                 finish();
             }else {
-                Toast.makeText(ClassSectionToRequest.this, "Error al enviar solicitud", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SolicitudSeccion.this, "Error al enviar solicitud", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
@@ -220,12 +220,12 @@ public class ClassSectionToRequest extends ActionBarActivity implements View.OnC
                 JSONObject parentObject = new JSONObject(JSONResponse);
                 materias = new ArrayList<>();
                 String nombreMateria = "";
-                JSONArray MainnArray = parentObject.getJSONArray("Classes");
+                JSONArray MainnArray = parentObject.getJSONArray("Asignaturas");
 
                 for (int i= 1; i < MainnArray.length();i++){
                     JSONObject clase = MainnArray.getJSONObject(i);
-                    nombreMateria = clase.getString("nombreMateria");
-                    materias.add(new ClassToRequest(clase.getString("materiaID"),clase.getString("nombreMateria")
+                    nombreMateria = clase.getString("descripcion");
+                    materias.add(new ClassToRequest(clase.getString("asignaturaID"),clase.getString("descripcion")
                     ));
 
                 }

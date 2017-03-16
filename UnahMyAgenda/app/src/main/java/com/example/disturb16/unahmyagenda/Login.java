@@ -72,7 +72,7 @@ public class Login extends ActionBarActivity implements View.OnClickListener{
                 break;
 
             case R.id.registerLink:
-                startActivity(new Intent(this,Register.class));
+                startActivity(new Intent(this,SolicitudCuenta.class));
                 break;
         }
     }
