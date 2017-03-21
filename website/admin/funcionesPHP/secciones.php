@@ -72,7 +72,7 @@
 
 	$periodos = mysqli_query($conn, "SELECT periodoAcademicoID
 											,descripcion
-									   FROM periodoacademico
+									   FROM periodoAcademico
 									  WHERE tipoEstadoID = 1");
 
 	if(!$Catedraticos)

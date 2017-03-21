@@ -39,7 +39,7 @@
 	mysqli_close($conn);
 ?>
 
-<!-- Formulario para agregar secciones -->
+<!-- Formulario para agregar Asignatura -->
 <div id="agregarAsignatura" class="modal modal-fixed-footer">
 	<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat right"><li class="material-icons">close</li></a>
     <div class="modal-content">
@@ -47,7 +47,7 @@
 		<h4>Registro de Asignaturas</h4>
 	</div>
       
-    	<form id="formSeccion" action="#!" method="post" class="col s12">
+    	<form id="formAsignaturas" action="funcionesPHP/registrarAsignatura.php" method="post" class="col s12">
     		<div class="row">
 		        <div class="input-field col s12">
 		          <input id="descripcion" name="descripcion" type="text" class="validate">
@@ -64,7 +64,7 @@
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Cancelar</a>
-      <button type="submit" form="formSeccion" class="waves-effect waves-green btn-flat">Aceptar</button>
+      <button type="submit" form="formAsignaturas" class="waves-effect waves-green btn-flat">Aceptar</button>
     </div>
   </div>
 
