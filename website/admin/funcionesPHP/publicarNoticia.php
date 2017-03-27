@@ -1,48 +1,91 @@
-<script src="../tinymce_4.2.1/tinymce/js/tinymce/tinymce.min.js"></script>
-<script>
-	tinymce.init({
+﻿<?php
 
-			selector: "textarea",
+	include("../../connection.php");
 
-			plugins: [
+	$usuario = 1;// mysqli_real_escape_string($con,$_POST['usuario']);
+	$noticia= mysqli_real_escape_string($conn,$_POST['contenido']);
+	$descrip = mysqli_real_escape_string($conn,$_POST['descripcionNoti']);
 
-				"advlist autolink lists link image charmap print preview anchor",
+	$titulo = mysqli_real_escape_string($conn, $_POST['titulo']);
 
-				"searchreplace visualblocks code fullscreen emoticons contextmenu",
+	$type = $_POST['tipoPublicacion'];
+	$ruta_imagen = $_FILES['portadaImg']['name'];
 
-				"insertdatetime media imagetools table contextmenu paste textcolor jbimages"
+	//$edited = $_POST['edited'];
+	// if ($edited == 'f'){
 
-			],
+	if (empty($_POST['autor']) && empty($_POST['titulo']) && empty($_POST['novedad']) && empty($_POST['descrip']) && $_FILES['portadaImg']['type'] == '')
+	{
+		mysqli_close($conn);
+		echo "<script>alert('Tienes que completar todos los campos para publicar tu noticia!') </script>";
+		//echo "<script>history.go(-1);</script>";
+		return;
+	}
 
-			toolbar: "insertfile undo redo preview | styleselect forecolor backcolor emoticons | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages",
+	if ($type == 'n'){
 
-			 gecko_spellcheck: true,
+		// guardar imagen de muestra
+		$img_pathTo_save = "imagenes/portada_noticias/".$_FILES['portadaImg']['name'];
 
-	image_advtab: true,
+		$img_path="../../".$img_pathTo_save;
 
-	relative_urls: false
+		if (!move_uploaded_file($_FILES['portadaImg']['tmp_name'],$img_path))
+		{
+			mysqli_close($conn);
+			echo "<script>alert('Error al guardar imagen de portada') </script>";
+			//echo "<script>history.go(-1);</script>";
+			return;
+		}
 
-		});
-</script>
+		// Ingresar la noticia en la base de datos
 
-<form id="publiNoti" action="#!" method="post" class="col s12">
-    		<div class="row">
-		        <div class="input-field col s12">
-		          <input id="descripcion" name="descripcion" type="text" class="validate">
-		          <label for="descripcion">Descripción de Asignatura</label>
-		        </div>
-		    </div>
-		    <div class="row">
-		        <div class="input-field col s12">
-		          <input id="codigo" name="codigo" type="text" class="validate">
-		          <label for="codigo">Código de Asignatura</label>
-		        </div>
-		    </div>	
-		    <div class="row">
-		        <div class="input-field col s12">
-		          <textarea name='novedad' placeholder='Nombre_del_evento' rows='20'></textarea>
-		          <!-- <label for="codigo">Código de Asignatura</label> -->
-		        </div>
-		    </div>      
-	    </form>
+		$insert = mysqli_query ($conn,"INSERT INTO noticias (usuarioID, tituloNoticia, imagenPortada, 										contenidoNoticia, fechaCreo, descripcionNoticia, tipoEstadoID) 
+									VALUES ('$usuario', '$titulo', '$img_pathTo_save', '$noticia', now(),'$descrip', 1)");
+	}
+	if ($type == 'e'){
 
+			// guardar imagen de muestra
+		$img_pathTo_save = "imagenes/portada_eventos/".$_FILES['imagen']['name'];
+
+		$target=$_SERVER['DOCUMENT_ROOT']."/androidTest/imagenes/portada_eventos/";
+
+		$img_path=$target.$_FILES['imagen']['name'];
+
+		move_uploaded_file($_FILES['imagen']['tmp_name'],$img_path);
+
+			$insert = mysqli_query($con,"INSERT INTO eventos (autor, titulo, imagen, evento,fecha,descripcion) 
+
+			VALUES ('$_POST[autor]', '$titulo', '$img_pathTo_save', '$noticia','$fecha','$descrip')");
+
+	}
+
+	if(!$insert){
+		echo mysqli_error($conn);
+		mysqli_close($conn);
+		echo "error al insertar noticia";
+	//	echo "<script>history.go(-1);</script>";
+		return;
+	}
+
+
+	mysqli_close($conn);
+	echo "Publicación exitosa!";
+//	echo "<script>history.go(-1);</script>";
+
+
+// if ($edited == 't'){
+// 	if (!empty($_POST['autor']) && !empty($_POST['titulo']) && !empty($_POST['novedad']) && !empty($_POST['descrip']) )
+// 	{	
+// 		$update = mysqli_query($con,"UPDATE noticias SET autor = '$_POST[autor]', titulo = '$titulo', descripcion = '$descrip', noticia = '$noticia' WHERE id_noticia = '$id' ");
+// 	if(!$update)
+// 		echo "error al insertar noticia";
+// 	else
+// 		echo "se ha publicado la noticia";	
+// 	}else{
+// 		echo "<script>alert('Tienes que completar todos los campos!') </script>";	
+// 		mysqli_close($con);	
+// 		echo "<script>history.go(-1);</script>";		
+// 	}
+	
+// }
+?>

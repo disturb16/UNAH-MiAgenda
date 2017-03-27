@@ -49,12 +49,12 @@
 		      </ul>
 		    </div>
 		  </nav>
-		  <div id="secciones" class="col s12">secciones</div>
-		  <div id="noticias" class="col s12">noticias</div>
-		  <div id="asignaturas" class="col s12">asignaturas</div>
-		  <div id="solicitudes" class="col s12">solicitudes</div>
-		  <div id="forma" class="col s12">Forma</div>
-		  <div id="tickets" class="col s12">tickets</div>
+		  <div id="secciones" class="col s12"></div>
+		  <div id="noticias" class="col s12"></div>
+		  <div id="asignaturas" class="col s12"></div>
+		  <div id="solicitudes" class="col s12"></div>
+		  <div id="forma" class="col s12"></div>
+		  <div id="tickets" class="col s12"></div>
 
 
 	</main>

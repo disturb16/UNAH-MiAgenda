@@ -41,7 +41,14 @@
 	</div>
     <div class="modal-content" style="margin:0">
     
-		<form id="publiNoti" action="#!" method="post" class="col s12">
+		<form id="publiNoti" action="funcionesPHP/publicarNoticia.php" method="post" enctype="multipart/form-data" class="col s12">
+			<p>
+				<input class="with-gap" name="tipoPublicacion" type="radio" id="noti" value="n" checked />
+				<label for="noti">Noticia</label>
+
+				<input class="with-gap" name="tipoPublicacion" type="radio" id="evento" value="e" />
+				<label for="evento">Evento</label>
+			</p>
     		<div class="row">
 		        <div class="input-field col s12">
 		          <input id="titulo" name="titulo" type="text" class="validate">
@@ -50,13 +57,25 @@
 		    </div>
 		    <div class="row">
 		        <div class="input-field col s12">
-		          <input id="descripcionNoti" name="descripcionNoti" type="text" class="validate">
+		          <input id="descripcionNoti" name="descripcionNoti" type="text" maxlength="200"  
+		           class="validate">
 		          <label for="descripcionNoti">Descripción de Noticia</label>
 		        </div>
-		    </div>	
+		    </div>
+		    <div class="row">
+		    	<div class="file-field input-field">
+			      <div class="btn">
+			        <span>Portada</span>
+			        <input type="file" name="portadaImg" accept="image/*" required>
+			      </div>
+			      <div class="file-path-wrapper">
+			        <input class="file-path validate" type="text">
+			      </div>
+			    </div>
+		    </div>
 		    <div class="row">
 		        <div class="input-field col s12">
-		          <textarea name='novedad' placeholder='Nombre_del_evento' rows='50'></textarea>
+		          <textarea name='contenido' placeholder='Nombre_del_evento' rows='50'></textarea>
 		        </div>
 		    </div>      
 	    </form>
@@ -72,6 +91,8 @@
 <div class="fixed-action-btn">
 	<a href="#Publicar" class="btn-floating btn-large waves-effect waves-light red right publicar"><i class="material-icons">add</i></a>
 </div>
+
+<?php echo $_SERVER['DOCUMENT_ROOT']; ?>
 
 <script src="tinymce_4.2.1/tinymce/js/tinymce/tinymce.min.js"></script>
 <script>
