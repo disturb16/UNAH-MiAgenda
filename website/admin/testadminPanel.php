@@ -1,9 +1,41 @@
+
+<?php
+	
+	//Obtener información del usuario en sesion
+	session_start();
+	include("../connection.php");
+
+	//Verificar si han sido inicializadas las variables de sesion
+ 	if (!isset($_SESSION['usuarioID']) || ($_SESSION['tipoUsuarioID'] != 1)){
+ 		mysqli_close($conn);
+ 		header("Location: login.php");
+ 		return;
+ 	}
+
+ 	$query = mysqli_query($conn,"SELECT * FROM usuarios WHERE usuarioID = '$_SESSION[usuarioID]'")
+							or die(mysqli_error($connn));
+
+	if(!$query){
+		mysqli_close($conn);
+		echo "<script>alert('Error al obtener información de usuario');</script>";
+ 		header("Location: login.php");
+ 		return;
+	}
+
+	//guardar en memoria datos de usuario
+	$data = mysqli_fetch_array($query);
+	$usuarioId = $data["usuarioID"];
+	$nombres = $data["nombres"];
+	$usuario = $data["userName"];
+
+ ?>
+
 <!DOCTYPE html>
 <html>
 	<head>	  
 	  <title>UNAH Mi Agenda Administracion</title>
 	  <!--Import Google Icon Font-->
-	   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
 	  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	  <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -25,12 +57,12 @@
 	<main>
 		<nav class="nav-extended blue darken-4">
 		    <div class="nav-wrapper">
-		      <a href="#" class="brand-logo">Logo</a>
+		      <img src="../imagenes/logo-unah.png" width="200px" height="90px" />
 		      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 		      <ul id="nav-mobile" class="right hide-on-med-and-down">
 		        <li><a href="#!">Usuarios</a></li>
 		        <li><a href="#!">Reporte Calificaciones</a></li>
-		        <li><a href="#!">Cerrar Sesión</a></li>
+		        <li><a href="logOut.php">Cerrar Sesión</a></li>
 		      </ul>
 		      <ul class="side-nav" id="mobile-demo">
 		        <li><a href="sass.html">Sass</a></li>
@@ -64,7 +96,7 @@
           <div class="container">
             <div class="row">
               <div class="col l6 s12">
-                <h5 class="white-text">Footer Content</h5>
+                <h5 class="white-text">UNAH Mi Agenda</h5>
                 <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
               </div>
               <div class="col l4 offset-l2 s12">
@@ -80,8 +112,7 @@
           </div>
           <div class="footer-copyright">
             <div class="container">
-            © 2014 Copyright Text
-            <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            © 2017 Derechos Reservados
             </div>
           </div>
         </footer>
@@ -90,3 +121,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
     <script src="js/agndFunc.js"></script>
 </html>
+
+
+<?php
+	mysqli_close($conn);
+?>
