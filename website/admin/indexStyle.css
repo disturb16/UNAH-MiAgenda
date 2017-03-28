@@ -1,0 +1,55 @@
+@charset "utf-8";
+
+/* Estilo para noticias en Index */
+
+@import url('respcss.css');
+
+body{
+				background: url('imagenes/background-login.jpg') repeat;
+				background-position: center; 
+			}
+
+.Menu, .result{
+	margin: 10px 0 0 10px;
+	vertical-align:top;
+	display: inline-block;
+	width: 70%;
+	box-shadow: 0 0 1px #999;
+	background-color: #fff;
+}
+.Menu{
+	padding: 10px;
+	width: 20%;
+}
+.Menu ul a , ul li{
+	font-size: 20pt;
+	text-decoration: none;
+	list-style: none;
+}
+
+#newSeccion, #nuevaNoticia{
+	display:none;
+	margin: 10px 0 10px 5px;
+}
+
+.result{
+	max-height: 500px;
+	overflow: auto;
+
+}
+#cabecera h1, #cabecera a{
+	display: inline-block;
+	vertical-align: top;
+
+}
+
+#cabecera a{
+	padding-left: 60%;
+	color: #fff;
+	text-decoration: none;
+}
+
+#addPopUp{
+	margin: 10px auto 5px 5px;
+	display: none;
+}

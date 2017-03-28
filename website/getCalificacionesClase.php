@@ -13,7 +13,7 @@
 		$qry = mysqli_query($conn, " SELECT c.puntajeCalificacion
 									 		,c.periodoAcademicoID
 									   FROM calificaciones c
-									  WHERE c.usuarioID =  '1$userID'
+									  WHERE c.usuarioID =  '$userID'
 										AND c.seccionID =  '$seccion'
 									  GROUP BY c.periodoAcademicoID");
 
