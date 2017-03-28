@@ -27,6 +27,17 @@
 	$nombres = $data["nombres"];
 	$usuario = $data["userName"];
 
+	$qrySecciones = mysqli_query($conn, "SELECT 
+										       sec.seccionID
+										      ,sec.seccion
+										      ,asig.descripcion as asignatura
+										 FROM secciones sec
+										 inner join asignaturas asig
+												 on asig.asignaturaID = sec.asignaturaID
+												and asig.tipoEstadoID = 1
+										WHERE sec.usuarioID = '$usuarioId'
+										  and sec.tipoEstadoID = 1 ");
+
  ?>
 
 
@@ -60,34 +71,6 @@
 
 
 
-<?php 
-$fechaToday = date("Y-m-d");
-$qrySeccion = mysqli_query($conn,"select m.nombreMateria, s.horaInicio, s.seccion, s.habilitarEvaluacion, s.fechaInicio, s.fechaFinal
-								 from secciones s
-							   	 inner join materias m on s.materiaID = m.materiaID
-								 where catedraticoID = '$_SESSION[usuarioID]' ");
-
-if(!$qrySeccion)
-	$seccion = -1;
-
-else{
-	echo "<SELECT name='seccion' id='selectSeccion'";?> onchange="getSeccionEvaluar(1)">
-	<?php 
-	while ($dataSeccion = mysqli_fetch_array($qrySeccion)) {			
-
-		if (($dataSeccion["habilitarEvaluacion"] == 1) && (($fechaToday >= $dataSeccion["fechaInicio"]) && ($fechaToday <= $dataSeccion["fechaFinal"]))) {
-			$seccion = $dataSeccion["seccion"];
-			$materia = utf8_encode($dataSeccion["nombreMateria"]);
-			echo"<option value='$seccion'>$materia</option>";
-		}else
-			echo"<option value='-1'>No hay secciones habilitadas</option>";		
-	}
-	echo "</SELECT> <a href='#' class='btnEmail'><span class='fa fa-envelope'></span> Recibir copia de calificaciones</a><br>";
-	echo "<script>getSeccionEvaluar(1);</script> ";
-
-}
-?>
-
 
 <main>	
 <nav class="nav-extended blue darken-4">
@@ -110,7 +93,36 @@ else{
       </ul>
     </div>
   </nav>
-  <div id="calificaciones" class="col s12"></div>
+  <div id="calificaciones" class="col s12">
+  <div class="row">
+	  	<div class="input-field col s3">
+		    <select class="secciones-calificar">
+		      <option value="" disabled selected>Elija una sección</option>
+		      <?php
+
+		      	while($secciones = mysqli_fetch_array($qrySecciones)){
+		      		$id = $secciones["seccionID"];
+		      		$seccion = $secciones["seccion"];
+		      		$asignatura = $secciones["asignatura"];
+		      		echo "<option value='$id'>$seccion - $asignatura</option>";
+		      	}
+
+		      ?>
+		    </select>
+		</div>
+  </div>
+
+  <div class="row">
+  <div class="secciones-calificar-contenido col s6" id="calificaciones-contenido">
+  	
+  </div>
+  </div>
+  </div><!-- Fin de calificaciones -->
+
+
+
+
+
   <div id="mensajes" class="col s12"></div>
 
 
@@ -155,31 +167,34 @@ else{
 				});
 
 			$(".button-collapse").sideNav();
+
+
+			$("#puntaje").keyup(function(){
+				var p = document.getElementById("puntaje").value;
+				p.replace(/[^0-9\.]+/g, '');
+
 			});
+		});
+			
+			$('select').material_select();
+
+			$(".secciones-calificar").change(function(){
+
+				$.ajax({
+			    type: "get",
+			    url: "funcionesPHP/getSeccionesCalificar.php",
+			    datatype: 'html'
+				}).done(function( response ) {
+				    var node = document.getElementById("calificaciones-contenido");
+				    while (node.firstChild){
+				        node.removeChild( node.firstChild );
+				    }
+				    $(".secciones-calificar-contenido").append(response);
+				});
+
+
+			});
+
 		</script>
 
-		<style >
-			.btnEmail{
-				box-sizing: border-box;
-				width: 20%;
-				height: 30px;
-				padding: 6px;
-				background-color: #fff;
-				border: 1px solid #4B4A4A;
-				border-radius: 0.2em;
-				color: #000;
-				text-align: center;
-				text-decoration: none;
-				font-size: 10pt;
-				font-family: roboto, calibri, arial;
-			}
-			.btnEmail:hover{
-				cursor: pointer;
-				box-shadow: 0 0 1px #7D7E7E;
-			}
-
-			.btnEmail:active{
-				background: #999;
-			}
-		</style>
 </html>

@@ -1,7 +1,7 @@
 <?php
-$_host = "mysql1.000webhost.com";
-$_db = "a6603559_agenda";
-$_user = "a6603559_admin";
+$_host = "localhost";
+$_db = "miagnd_unah";
+$_user = "usr";
 $_pass = "Alchemist2";
 
 $conn = mysqli_connect($_host, $_user, $_pass, $_db);
