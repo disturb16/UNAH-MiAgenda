@@ -66,9 +66,7 @@
 								<td>$nombres</td>
 								<td contenteditable id='puntaje'>$puntaje</td>
 							</tr>";
-
 					}
-
 				?>
 			</tbody>
 		</table>
