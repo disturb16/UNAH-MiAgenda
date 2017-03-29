@@ -26,17 +26,24 @@
 	$usuarioId = $data["usuarioID"];
 	$nombres = $data["nombres"];
 	$usuario = $data["userName"];
+	$periodoAcademicoID = 1; // pruebas
 
 	$qrySecciones = mysqli_query($conn, "SELECT 
 										       sec.seccionID
 										      ,sec.seccion
 										      ,asig.descripcion as asignatura
+										      ,sec.periodoAcademicoID
 										 FROM secciones sec
 										 inner join asignaturas asig
 												 on asig.asignaturaID = sec.asignaturaID
 												and asig.tipoEstadoID = 1
 										WHERE sec.usuarioID = '$usuarioId'
-										  and sec.tipoEstadoID = 1 ");
+										  and sec.tipoEstadoID = 1 
+										  -- and  sec.periodoAcademicoID = 1");
+
+	if (!$qrySecciones){
+		echo mysqli_error($conn);
+	}
 
  ?>
 
@@ -112,8 +119,9 @@
 		</div>
   </div>
 
-  <div class="row">
-  <div class="secciones-calificar-contenido col s6" id="calificaciones-contenido">
+  <div class="row offset-2">
+
+  <div class="secciones-calificar-contenido col s8" id="calificaciones-contenido">
   	
   </div>
   </div>
@@ -125,7 +133,8 @@
 
   <div id="mensajes" class="col s12"></div>
 
-
+<input type="hidden" name="usuario" id="usuarioId" value=<?php echo "'$usuarioId'"; ?> />
+<input type="hidden" name="periodo" id="periodo" value= <?php echo "'$periodoAcademicoID'"; ?>  >
 </main>
 
 <footer class="page-footer blue darken-4">
@@ -182,6 +191,10 @@
 
 				$.ajax({
 			    type: "get",
+			    data: { seccionId: $(this).val(),
+			    		usuarioId: $("#usuarioId").val(),
+			    		periodo: $("#periodo").val() 
+			    	  },
 			    url: "funcionesPHP/getSeccionesCalificar.php",
 			    datatype: 'html'
 				}).done(function( response ) {
@@ -194,6 +207,10 @@
 
 
 			});
+
+
+
+		    
 
 		</script>
 
