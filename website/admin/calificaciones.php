@@ -103,7 +103,7 @@
   <div id="calificaciones" class="col s12">
   <div class="row">
 	  	<div class="input-field col s3">
-		    <select class="secciones-calificar">
+		    <select class="secciones-calificar" id="secciones">
 		      <option value="" disabled selected>Elija una sección</option>
 		      <?php
 
@@ -117,6 +117,7 @@
 		      ?>
 		    </select>
 		</div>
+		<br><button class="btn amber lighten-1" id="btnNuevoParcial" >Agregar nuevo parcial</button>
   </div>
 
   <div class="row offset-2">
@@ -209,7 +210,19 @@
 			});
 
 
+		$("#btnNuevoParcial").click( function(){
 
+			$.ajax({
+			    type: "get",
+			    data: { seccionId: $("#seccionId").val()
+			    	  },
+			    url: "funcionesPHP/agregarParcial.php",
+			    datatype: 'html'
+				}).done(function( response ) {
+				    alert(response);
+				});
+
+		});
 		    
 
 		</script>

@@ -4,10 +4,10 @@
 
 
 	$cuentasArray = $_GET['cuentas'];
-	$periodo= $_GET['periodo'];
-	$seccion= $_GET['seccionId'];
-	$calificaciones= $_GET['calificaciones'];
-	$parcial = 1;
+	$periodo= mysqli_real_escape_string($conn, $_GET['periodo']);
+	$seccion= mysqli_real_escape_string($conn, $_GET['seccionId']);
+	$calificaciones=  $_GET['calificaciones'];
+	$parcial = mysqli_real_escape_string($conn, $_GET['parcial']);
 
 	// pasar a un solo string separado por comas
 	$cuentas = implode(", ", $cuentasArray);
