@@ -1,13 +1,13 @@
 <?php
 session_start();
-if (isset($_SESSION['s_priority'])) {
+if (isset($_SESSION['tipoUsuarioID'])) {
 	function redirect(){
-		if ($_SESSION['s_priority'] == 3){
+		if ($_SESSION['tipoUsuarioID'] == 3){
 			ob_start(); 
-			header("Location: uploadScores.php");
+			header("Location: calificaciones.php");
 			ob_end_flush(); 
 		}
-		if ($_SESSION['s_priority'] == 1) {
+		if ($_SESSION['tipoUsuarioID'] == 1) {
 			ob_start(); 
 			header("Location: index.php");
 			ob_end_flush(); 

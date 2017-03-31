@@ -120,9 +120,9 @@
 		<br><button class="btn amber lighten-1" id="btnNuevoParcial" >Agregar nuevo parcial</button>
   </div>
 
-  <div class="row offset-2">
+  <div class="row">
 
-  <div class="secciones-calificar-contenido col s8" id="calificaciones-contenido">
+  <div class="secciones-calificar-contenido col s6" id="calificaciones-contenido">
   	
   </div>
   </div>
@@ -161,7 +161,7 @@
             © 2017 Derechos Reservados
             </div>
           </div>
-        </footer>
+</footer>
 
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>

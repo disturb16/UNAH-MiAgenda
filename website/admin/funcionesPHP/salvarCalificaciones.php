@@ -34,19 +34,54 @@
 				// para que coincida con el elemento de calificaciones
 				$calificacion = $calificaciones[$index];
 
-				//insertar calificacion de alumno
-				$scoreInsert = mysqli_query($conn,"INSERT INTO calificaciones (seccionID, usuarioID, periodoAcademicoID, puntajeCalificacion, tipoEstadoID, parcial, fechaCreo) 
-    																   values( '$seccion', '$usuarioId', '$periodo', '$calificacion', 1, '$parcial', now() )");
+				$qryCalifGuardada = mysqli_query($conn, "SELECT puntajeCalificacion as puntaje
+													 FROM calificaciones
+													WHERE seccionID = '$seccion'
+													  AND usuarioID = '$usuarioId'
+													  AND parcial = '$parcial';");
 
-				if (!$scoreInsert){
-					echo "error al salvar puntaje.... ".mysqli_error($conn);
+				if(!$qryCalifGuardada){
+					echo "error al cargar calificaciones...:".mysqli_error($conn);
+					mysqli_close($conn);
+					return;
 				}
-				else{
-					echo "puntaje de cuenta ". $cuenta." salvada";
+
+				$puntaje = mysqli_fetch_array($qryCalifGuardada);
+
+				if($puntaje["puntaje"] < 0 || $puntaje["puntaje"] == null){
+					//insertar calificacion de alumno
+					$qryInsert = mysqli_query($conn, "INSERT INTO calificaciones (seccionID, usuarioID, periodoAcademicoID, puntajeCalificacion, tipoEstadoID, parcial, fechaCreo)
+													  values  ('$seccion', '$usuarioId', '$periodo', '$calificacion ', 1, '$parcial', now() )"
+											  );
+
+					if(!$qryInsert){
+						echo "Error al guardar nota...:".mysqli_error($conn);
+						mysqli_close($conn);
+						return;
+					}
+
+					echo "calificacion guadada exitosamente";
+
+				}else{
+					//actualizar calificacion de alumno
+					$qryUpdate = mysqli_query($conn,"  UPDATE calificaciones 
+														  SET puntajeCalificacion = '$calificacion' 
+														WHERE seccionID = '$seccion' 
+														  AND usuarioID = '$usuarioId'
+														  AND parcial = '$parcial' ");
+					if (!$qryUpdate){
+						echo "error al actualizar nota.... ".mysqli_error($conn);
+						mysqli_close($conn);
+						return;
+					}
+					
+					echo "calificacion guadada exitosamente";
 				}
-			}// end if
-		}// end foreach
+				
+			}// end if cuenta usuario
+		}// end foreach cuentas
 	}//end while
+
 
 
 

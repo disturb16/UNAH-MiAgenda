@@ -11,7 +11,30 @@
 									    FROM seccion_parcial 
 									   WHERE seccionID = '$seccionId' ");
 
-	$query = mysqli_query($conn,"SELECT forma.usuarioID
+
+	$qrySeccion = mysqli_query($conn, "SELECT * 
+										  from secciones 
+										 WHERE seccionID = '$seccionId' ");
+	
+	// if (!$query){
+	// 	mysql_close($conn);
+	// 	echo"no hay asignaturas";
+	// 	return;
+	// }
+?>
+<button class="btn" id="btnSalvar">salvar datos</button>
+<input type="hidden" name="seccion" id="seccionId" value= <?php echo "'$seccionId'"; ?>  >
+<input type="hidden" name="periodo" id="periodo" value= <?php echo "'$periodo'"; ?>  >
+
+
+<ul id="contenedor-calificaciones" class="collapsible popout" data-collapsible="accordion">
+<?php 
+	
+	while ($parciales = mysqli_fetch_array($parcialesqry) ){
+
+			$parcial = $parciales["parcial"];
+
+			$qryCalificacion = mysqli_query($conn,"SELECT forma.usuarioID
 									   ,usr.noCuenta
 									   ,usr.nombres
 								       ,calif.puntajeCalificacion
@@ -26,35 +49,22 @@
 								  left join calificaciones calif 
 										 on calif.usuarioID = forma.usuarioID
 										and calif.seccionID = forma.seccionID
+										and calif.parcial = '$parcial'
 								        and calif.tipoEstadoID = 1
 								  WHERE forma.tipoEstadoID = 1
 								    and forma.seccionID = '$seccionId'
+								    
 								   -- and usr.tipoUsuarioID = 2
 								   -- and calif.periodoAcademicoID = 1")
 						or die(mysqli_error($conn));
 	
-	if (!$query){
-		mysql_close($conn);
-		echo"no hay asignaturas";
-		return;
-	}
-?>
-<button class="btn" id="btnSalvar">salvar datos</button>
-<input type="hidden" name="seccion" id="seccionId" value= <?php echo "'$seccionId'"; ?>  >
-<input type="hidden" name="periodo" id="periodo" value= <?php echo "'$periodo'"; ?>  >
 
-
-<ul id="contenedor-calificaciones" class="collapsible popout" data-collapsible="accordion">
-<?php 
-	
-	while ($parciales = mysqli_fetch_array($parcialesqry) ){
-			$parcial = $parciales["parcial"];
 		?>
 		<li>
 	      <div class="collapsible-header"><i class="material-icons">list</i>Parcial <?php echo $parcial; ?></div>
 	      <div class="collapsible-body">
 	      	<?php echo "<input type='hidden' id='parcial$parcial' class='parcial' value='$parcial'>";    ?>
-	      	<table class='bordered highlight' id="tableCalificaciones">
+	      	<table class='bordered highlight tablaCalif' id="tableCalificaciones">
 			<thead>
 				<tr>
 					<th>No. Cuenta</th>
@@ -66,16 +76,22 @@
 				<?php
 
 
-					foreach($query["parcial"] as $calif){
-						$noCuenta = $calif["noCuenta"];
-						$nombres = $calif["nombres"];
-						$puntaje = $calif["puntajeCalificacion"];
-						echo "
-							<tr>
-								<td>$noCuenta</td>
-								<td>$nombres</td>
-								<td contenteditable id='puntaje'>$puntaje</td>
-							</tr>";
+					foreach($qrySeccion as $seccion){
+
+
+						foreach ($qryCalificacion as $key => $calif) {
+
+							$noCuenta = $calif["noCuenta"];
+							$nombres = $calif["nombres"];
+							$puntaje = $calif["puntajeCalificacion"];
+							echo "
+								<tr>
+									<td>$noCuenta</td>
+									<td>$nombres</td>
+									<td contenteditable id='puntaje'>$puntaje</td>
+								</tr>";
+						}
+						
 
 					}
 					// while ($calificaciones = mysqli_fetch_array($query)){
@@ -154,19 +170,16 @@
 
 
 	$("#btnSalvar").click(function (){
-
-		var parcialId = 0;
-		//recorrer cada lote de calificaciones
-		$(".collapsible-body").each(function (index) {
-
-			var parcial = $(this).children(".parcial").val();
-
+		// //recorrer cada lote de calificaciones
+		// $(".collapsible-body").each(function (index) {		
 
 			//Recorrer tabla de calificaciones
-			$("#tableCalificaciones tbody tr").each(function (tableIndex) {
+			$(".tablaCalif tbody tr").each(function (tableIndex) {
+
+				var parcialId = $(".tablaCalif").parent(".collapsible-body").children(".parcial").val();
 			    var campo1, campo2, campo3;
 			    var noCuentas = [];
-			    var calificacion = [];
+			    var calificaciones = [];
 			    var i = 0;
 
 			    //Recorrer columnas
@@ -177,11 +190,13 @@
 			                break;
 			            case 1: campo2 = $(this).text();
 			                break;
-			            case 2: calificacion[i] = $(this).text();
+			            case 2: calificaciones[i] = $(this).text();
 			                break;
 			        }
 			    });
 			            
+			     if (calificaciones[i] == '')
+			     	return;
 				//alert(noCuentas[i] + ' - ' + campo2 + ' - ' + calificacion[i] +' - '+parcial); // prueba
 
 			           //pasar datos a funcion php para guardarlos
@@ -189,9 +204,9 @@
 					type: "get",
 					data: { seccionId: $("#seccionId").val(),
 					    	cuentas: noCuentas,
-					    	calificaciones: calificacion,
+					    	calificaciones: calificaciones,
 					    	periodo: $("#periodo").val(),
-					    	parcial: parcial
+					    	parcial: parcialId
 					      },
 					url: "funcionesPHP/salvarCalificaciones.php",
 					datatype: 'html'
@@ -207,8 +222,6 @@
 
 
 			 });//end of row de tabla
-
-		});// end of cuerpo de calificaciones
 
 	});
 
