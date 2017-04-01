@@ -13,7 +13,7 @@
 			<div class='col s12 m7'>
 		    <div class="card horizontal">
 		      <div class="card-image">
-		        <img src=<?php echo "'../../miagendaWeb/"."$imagenPortada'"; ?> style="max-height: 250px;">
+		        <img src=<?php echo "'../"."$imagenPortada'"; ?> style="max-height: 250px;">
 		      </div>
 		      <div class="card-stacked">
 		      	<h2 class="header"><?php echo $titulo; ?></h2>
@@ -92,8 +92,6 @@
 	<a href="#Publicar" class="btn-floating btn-large waves-effect waves-light red right publicar"><i class="material-icons">add</i></a>
 </div>
 
-<?php echo $_SERVER['DOCUMENT_ROOT']; ?>
-
 <script src="tinymce_4.2.1/tinymce/js/tinymce/tinymce.min.js"></script>
 <script>
 	tinymce.init({
@@ -123,7 +121,7 @@
 <script>
 
 		$(document).ready(function () {
-				$('.publicar').leanModal();
+				$('.modal').modal();
 				$('select').material_select();
 			});
 </script>

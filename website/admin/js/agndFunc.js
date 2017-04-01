@@ -72,3 +72,36 @@ function getSecciones(){
 			    $("#tickets").append(response);
 			});
 		}
+
+function getForma(seccionID){
+
+			$.ajax({
+			    type: "GET",
+			    url: "getForma03.php",
+			    data: {seccionId: seccionID},
+			    datatype: 'html'
+			}).done(function( response ) {
+			    var node = document.getElementById("contenido-forma");
+			    while (node.firstChild){
+			        node.removeChild( node.firstChild );
+			    }
+			    $("#contenido-forma").append(response);
+			});
+		}
+
+function adicionarAlumno(usuario, seccion){
+
+	$.ajax({
+			    type: "GET",
+			    url: "funcionesPHP/adicionarAlumnoSeccion.php",
+			    data: {usuarioId: usuario,
+			    	   seccionId: seccion},
+			    datatype: 'html'
+			}).done(function( response ) {
+				
+			    alert(response);
+			    $('#agregarAlumnos').modal('close');
+			    getForma(seccion);
+
+			});
+}

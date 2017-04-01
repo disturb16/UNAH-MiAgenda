@@ -1,98 +1,131 @@
-<!DOCTYPE html>
 <?php
-session_start();
-	include("connection.php");
-	$con = mysqli_connect($_host,$_user,$_pass,$_db);
- if (isset($_SESSION['s_username'])&&($_SESSION['s_priority'] == 1)){
-	if (mysqli_connect_errno())
-		echo "Failed to connect to MySQL: " . mysqli_connect_error();
+	session_start();
+	include_once("../connection.php");
 
-	else{
-			$query = mysqli_query($con,"SELECT * FROM users WHERE userName = '$_SESSION[s_username]'")
-							or die(mysqli_error());
-			$data = mysqli_fetch_array($query);
-			$usuario = $_SESSION["s_username"];
-	}
-}else{
-	$usuario = "asdasd";
-	header("Location: login.php");
-	die();
-}
+	$seccionID = mysqli_real_escape_string($conn, $_GET["seccionId"]);
+
+  	$qryForma = mysqli_query($conn, "SELECT distinct usr.usuarioID
+												   ,usr.noCuenta 		
+												   ,usr.nombres 		as nombreCompleto
+											       ,usr.userName		as usuario
+												   ,usr.correo
+											  from forma_003 forma
+											 inner join usuarios usr
+													 on usr.usuarioID = forma.usuarioID
+											     -- and usr.tipoUsuarioID = 2
+											        and usr.tipoEstadoID = 1
+										 where forma.seccionID = '$seccionID' ");
+
+  	if(!$qryForma){
+  		echo "Error al obtener alumnos matriculados ..".mysqli_error($conn);
+  	}
+
+  	$qryAlumnosAgregar = mysqli_query($conn," SELECT usr.usuarioID
+													,usr.noCuenta
+													,usr.userName 	as usuario
+													,usr.nombres	as nombreCompleto
+													,usr.correo
+											from usuarios usr
+											where not exists(
+															select usuarioID 
+															  from forma_003 forma	  
+															 where forma.seccionID = '$seccionID'
+															   and forma.usuarioID = usr.usuarioID
+															   and forma.tipoEstadoID = 1
+															) ");
+
+  	if(!$qryAlumnosAgregar){
+  		echo "Error al obtener alumnos para adicionar..".mysqli_error($conn);
+  	}
+
+
+  ?>
+
+ <div>
+	<table class='bordered highlight centered'>
+		<thead>
+			<tr>
+				<th>no. Cuenta</th>
+				<th>Nombre Alumno</th>
+				<th>Correo electrónico</th>
+				<th>usuario Alumno</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php
+		while ($data = mysqli_fetch_array($qryForma)){
+
+			$noCuenta = $data['noCuenta'];
+			$nombreCompleto = $data['nombreCompleto'];
+			$usuario = $data['usuario'];
+			$correo = $data['correo'];
+			echo"		
+			<tr>
+				<td>$noCuenta</td>
+				<td>$nombreCompleto</td>
+				<td>$correo</td>
+				<td>$usuario</td>
+			</tr>";		
+		}
+		?>
+		</tbody>
+	</table>
+ </div>
+
+  <!-- Modal Structure -->
+  <div id="agregarAlumnos" class="modal">
+  		<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat right"><li class="material-icons">close</li></a>
+    <div class="modal-content">
+      <h4>Adicionar Alumno</h4>
+      <table class='bordered highlight centered'>
+		<thead>
+			<tr>
+				<th>no. Cuenta</th>
+				<th>Nombre Alumno</th>
+				<th>Correo electrónico</th>
+				<th>usuario Alumno</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php
+		if(mysqli_num_rows($qryAlumnosAgregar) == 0){
+			echo "<span class='red-text darken-1'>No hay alumnos disponibles para esta sección.</span>";
+		}
+		while ($data = mysqli_fetch_array($qryAlumnosAgregar)){
+
+			$usuarioId = $data["usuarioID"];
+			$noCuenta = $data['noCuenta'];
+			$nombreCompleto = $data['nombreCompleto'];
+			$usuario = $data['usuario'];
+			$correo = $data['correo'];
+			echo"		
+			<tr>
+				<td>$noCuenta</td>
+				<td>$nombreCompleto</td>
+				<td>$correo</td>
+				<td>$usuario</td>
+				<td><button class='btn amber lighten-1' onclick='adicionarAlumno($usuarioId, $seccionID)'>Adicionar</button></td>
+			</tr>";		
+		}
+		?>
+		</tbody>
+	</table>
+    </div>
+  </div>
+
+
+	<!-- Boton agregar -->
+	<div class="fixed-action-btn">
+		<a href="#agregarAlumnos" class="btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">add</i></a>
+	</div>
+
+
+	<script>
+		$(document).ready(function () {
+    		$('.modal').modal();
+    	});
+	</script>
+<?php
+	mysqli_close($conn);
 ?>
-<html>
 
-<head>
-
-	<?php echo "<title>Unah Mi Agenda - Administracion"." ".$usuario." </title>"; ?>
-
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<meta charset="utf-8">
-
-	<link href="uploadScoreStyle.css" rel="stylesheet" media="all"/>
-
-	<link rel="stylesheet" href="dist/magnific-popup.css">
-
-<style>
-	#alumnosContainer{
-		width:90%;
-		margin: 10px auto;
-		display: block;
-	}
-	.alumnoRow{
-		width: 90%;
-	}
-
-	#alumnosEvaluados{
-		display: none;
-	}
-</style>
-
-
-</head>
-
-
-<body>
-
-
-
-<div class ='all'>
-
-
-<div id='content'>
-<!-- Contenedor de alumnos pendientes a evaluar -->
-
-
-<?php 
-$qrySeccion = mysqli_query($con,"select m.nombreMateria, s.horaInicio, s.seccion
-								 from secciones s
-							   	 inner join materias m on s.materiaID = m.materiaID
-							   	 WHERE s.periodo = '2' and s.year = '2016'");
-
-if(!$qrySeccion)
-	$seccion = -1;
-
-else{
-	echo "<SELECT name='seccion' id='selectSeccion'";?> onchange="getSeccionEvaluar(2)">
-	<option value='-1'>---Seleciona una Sección---</option>
-	<?php 
-	while ($dataSeccion = mysqli_fetch_array($qrySeccion)) {
-		$seccion = $dataSeccion["seccion"];
-		$materia = utf8_encode($dataSeccion["nombreMateria"]);
-		echo"<option value='$seccion'>$materia ($seccion)</option>";
-	}
-	echo "</SELECT><br>";;
-}
-?>
-
-</div>
-
-<div id='alumnosEvaluar'></div>
-
-</div>
-
-
-
-</body>
-
-</html>

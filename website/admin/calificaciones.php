@@ -11,8 +11,11 @@
  		return;
  	}
 
- 	$query = mysqli_query($conn,"SELECT * FROM usuarios WHERE usuarioID = '$_SESSION[usuarioID]' and tipoEstadoID = 1")
-							or die(mysqli_error($connn));
+ 	$query = mysqli_query($conn,"SELECT * 
+ 								   FROM usuarios
+ 								  WHERE usuarioID = '$_SESSION[usuarioID]' 
+ 								    and tipoEstadoID = 1")
+							or die(mysqli_error($conn));
 
 	if(!$query){
 		mysqli_close($conn);
@@ -80,7 +83,7 @@
 
 
 <main>	
-<nav class="nav-extended blue darken-4">
+<nav class="nav-extended blue darken-3">
     <div class="nav-wrapper">
       <img src="../imagenes/logo-unah.png" width="200px" height="90px" />
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -122,7 +125,7 @@
 
   <div class="row">
 
-  <div class="secciones-calificar-contenido col s6" id="calificaciones-contenido">
+  <div class="secciones-calificar-contenido col s8" id="calificaciones-contenido">
   	
   </div>
   </div>
@@ -138,7 +141,7 @@
 <input type="hidden" name="periodo" id="periodo" value= <?php echo "'$periodoAcademicoID'"; ?>  >
 </main>
 
-<footer class="page-footer blue darken-4">
+<footer class="page-footer blue darken-3">
           <div class="container">
             <div class="row">
               <div class="col l6 s12">
@@ -186,7 +189,7 @@
 			});
 		});
 			
-			$('select').material_select();
+			$('#secciones').material_select();
 
 			$(".secciones-calificar").change(function(){
 
@@ -206,11 +209,16 @@
 				    $(".secciones-calificar-contenido").append(response);
 				});
 
-
+				$(this).material_select();
 			});
 
 
 		$("#btnNuevoParcial").click( function(){
+
+			var aceptar = confirm("¿Desea agregar un nuevo parcial?");
+
+			if (!aceptar)
+				return;
 
 			$.ajax({
 			    type: "get",

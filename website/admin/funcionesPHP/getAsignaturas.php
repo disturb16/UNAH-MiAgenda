@@ -77,7 +77,7 @@
 <script>
 
 		$(document).ready(function () {
-				$('.addSeccion').leanModal();
+				$('.modal').modal();
 				$('select').material_select();
 			});
 </script>

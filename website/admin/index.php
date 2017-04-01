@@ -1,133 +1,180 @@
-<!DOCTYPE html>
+
 <?php
+	
+	//Obtener información del usuario en sesion
 	session_start();
 	include("../connection.php");
- 	if (isset($_SESSION['userName']) && ($_SESSION['tipoUsuarioID'] == 1)){
 
-		$query = mysqli_query($conn,"SELECT * FROM usuarios WHERE usuarioID = '$_SESSION[usuarioID]'")
+	//Verificar si han sido inicializadas las variables de sesion
+ 	if (!isset($_SESSION['usuarioID']) || ($_SESSION['tipoUsuarioID'] != 1)){
+ 		mysqli_close($conn);
+ 		header("Location: login.php");
+ 		return;
+ 	}
+
+ 	$query = mysqli_query($conn,"SELECT * FROM usuarios WHERE usuarioID = '$_SESSION[usuarioID]'")
 							or die(mysqli_error($connn));
 
-		$data = mysqli_fetch_array($query);
-		$usuario = $_SESSION["userName"];
-	
-	}else{
-		mysqli_close($connn);
-		$usuario = "asdasd";
-		header("Location: login.php");
+	if(!$query){
+		mysqli_close($conn);
+		echo "<script>alert('Error al obtener información de usuario');</script>";
+ 		header("Location: login.php");
+ 		return;
 	}
 
-?>
+	//guardar en memoria datos de usuario
+	$data = mysqli_fetch_array($query);
+	$usuarioId = $data["usuarioID"];
+	$nombres = $data["nombres"];
+	$usuario = $data["userName"];
+
+	$qrySecciones = mysqli_query($conn, "SELECT 
+										       sec.seccionID
+										      ,sec.seccion
+										      ,asig.descripcion as asignatura
+										      ,sec.periodoAcademicoID
+										 FROM secciones sec
+										 inner join asignaturas asig
+												 on asig.asignaturaID = sec.asignaturaID
+												and asig.tipoEstadoID = 1
+										WHERE 1=1
+										  and sec.tipoEstadoID = 1 
+										  -- and  sec.periodoAcademicoID = 1");
+
+	if (!$qrySecciones){
+		echo mysqli_error($conn);
+	}
+
+ ?>
+
+<!DOCTYPE html>
 <html>
+	<head>	  
+	  <title>UNAH Mi Agenda Administracion</title>
+	  <!--Import Google Icon Font-->
+	  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+	  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	  <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<head>
 
-	<?php echo "<title>Unah Mi Agenda - Administración". " ".$usuario." </title>"; ?>
+	  <style type="text/css">
+	  	body {
+	     display: flex;
+	     min-height: 100vh;
+	     flex-direction: column;
+	 }
+	 main {
+	     flex: 1 0 auto;
+	 }
+	  </style>
 
-	<script src='javascript/jquery-1.11.2.min.js'></script>
+	</head>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<main>
+		<nav class="nav-extended blue darken-4">
+		    <div class="nav-wrapper">
+		      <img src="../imagenes/logo-unah.png" width="200px" height="90px" />
+		      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+		      <ul id="nav-mobile" class="right hide-on-med-and-down">
+		        <li><a href="#!">Usuarios</a></li>
+		        <li><a href="#!">Reporte Calificaciones</a></li>
+		        <li><a href="logOut.php">Cerrar Sesión</a></li>
+		      </ul>
+		      <ul class="side-nav" id="mobile-demo">
+		        <li><a href="sass.html">Sass</a></li>
+		        <li><a href="badges.html">Components</a></li>
+		        <li><a href="collapsible.html">JavaScript</a></li>
+		      </ul>
+		    </div>
+		    <div class="nav-content">
+		      <ul class="tabs tabs-transparent tabs-fixed-width">
+		        <li class="tab"><a href="#secciones" onclick="getSecciones()">Secciones</a></li>
+		        <li class="tab"><a href="#forma">Forma 03</a></li>
+		        <li class="tab"><a href="#tickets" onclick="getSolicitudesSeccion()">Tickets</a></li>
+		        <li class="tab"><a href="#asignaturas" onclick="getAsignaturas()">Asignaturas</a></li>
+		        <li class="tab"><a href="#noticias" onclick="getNoticias()">Noticias y Eventos</a></li>
+				<li class="tab"><a href="#solicitudes" onclick="getSolicitudesCuenta()">Solicitudes Cuenta</a></li>		        		    
+		      </ul>
+		    </div>
+		  </nav>
+		  <div id="secciones" class="col s12"></div>
+		  <div id="noticias" class="col s12"></div>
+		  <div id="asignaturas" class="col s12"></div>
+		  <div id="solicitudes" class="col s12"></div>
+		  <div id="forma" class="col s12">
+		  	<div class="row">
+			  	<div class="input-field col s3">
+				    <select class="secciones-forma" id="secciones">
+				      <option value="" disabled selected>Elija una sección</option>
+				      <?php
 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+				      	while($secciones = mysqli_fetch_array($qrySecciones)){
+				      		$id = $secciones["seccionID"];
+				      		$seccion = $secciones["seccion"];
+				      		$asignatura = $secciones["asignatura"];
+				      		echo "<option value='$id' class='optSeccion'>$seccion - $asignatura</option>";
+				      	}
 
-	<meta charset="utf-8">
-		<!-- scripts -->
+				      ?>
+				    </select>
+				</div>
+				<div class="row" id="contenido-forma"></div>
+		    </div>
 
-<script type="text/javascript" src="functions.js"></script>
+		  </div>
+		  <div id="tickets" class="col s12"></div>
 
-	<script src="dist/jquery.magnific-popup.min.js"></script>
 
-	<link href="indexStyle.css" rel="stylesheet" media="all"/>
-
-	<link rel="stylesheet" href="dist/magnific-popup.css">
+	</main>
 	
-	
-		<script>
-	$(document).ready(function() {
-			$('.btnS').magnificPopup({
-				type: 'ajax',
-				alignTop:false,
-				closeOnContentClick: false
 
-			});
+	<footer class="page-footer blue darken-4">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">UNAH Mi Agenda</h5>
+                <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2017 Derechos Reservados
+            </div>
+          </div>
+        </footer>
 
-			$('.btnN').magnificPopup({
-				type: 'ajax',
-				alignTop:false,
-				closeOnContentClick: false
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+    <script>
 
-			});
+    	$(document).ready(function () {
+    		$('.modal').modal();
+    		$('select').material_select();	
+    	});
+    	
 
-			$('.add').magnificPopup({
-				type: 'ajax',
-				alignTop:false,
-				closeOnContentClick: false
-				});
+		$(".secciones-forma").change(function(){
+			
+			getForma($(this).val());
+			$(this).material_select();
 
-		});	
-
-function redireccionar()
-{
-	setTimeout("location.href='login.php'");
-}
-	</script>
-
-</head>
-
-
-
-<body>
-
-<!-- nav-menu -->
-
-		<div id="cabecera">	
-			<header>
-				<nav>
-					<h1>Unah Mi Agenda - Administracion</h1>
-					<a href='logOut.php' >Cerrar Sesión</a>
-				</nav>
-			</header>
-		</div>
-
-
-<div class ='all'>
-<aside class="Menu">
-	<ul>
-		<a href='#' onclick='getSecciones()'><li>Secciones</li></a><hr>
-		<a href='#' onclick='getNoticias()'><li>Noticias y Eventos</li></a><hr>
-		<a href='#' onclick='getSolicitudes()'><li>Solicitudes de cuenta</li></a><hr>
-		<a href='#' onclick='getForma()'><li>Forma 03</li></a><hr>
-		<a href='#'onclick='getRequestedMaterias()'><li>Tickets</li></a><hr>
-		<a href='Report.php'><li>Reporte de calificaciones</li></a>
-	</ul>
-
-</aside>
-<section class='result'>
-	<div id='newSeccion'>
-		<a class='btn btnS'  href='editSeccion_popUp.php'>Nueva seccion</a>
-	</div>
-	<div id='nuevaNoticia'>
-		<a class='btn'  href='publicar.php'>Nueva Noticia</a>
-	</div>
-	<div id='addPopUp'>
-		<a class='btn add' id='add' href='addAlumno.php'>Adicionar Alumno</a>
-	</div>
-
-	<div id='content'>
-	</div>
-
-
-
-</section>
-</div>
-
-</body>
-
-<footer>
-
-<div>
-	<p> 2016 &copy; Unah Mi agenda, All Rights Reserved</p>
-</div>
-
-</footer>
-<?php mysqli_close($conn); ?>
+		});
+    </script>
+    <script src="js/agndFunc.js"></script>
 </html>
+
+
+<?php
+	mysqli_close($conn);
+?>
