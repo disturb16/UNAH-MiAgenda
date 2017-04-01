@@ -63,7 +63,7 @@
 		<li>
 	      <div class="collapsible-header"><i class="material-icons">list</i>Parcial <?php echo $parcial; ?></div>
 	      <div class="collapsible-body">
-	      	<?php echo "<input type='hidden' id='parcial$parcial' class='parcial' value='$parcial'>";    ?>
+	      	
 	      	<table class='bordered highlight tablaCalif' id="tableCalificaciones">
 			<thead>
 				<tr>
@@ -72,7 +72,8 @@
 					<th>Puntaje Calificación</th>
 				</tr>
 			</thead>
-			<tbody>				
+			<tbody>	
+			<?php echo "<input type='hidden' id='parcial$parcial' class='parcial' value='$parcial'>";    ?>			
 				<?php
 
 
@@ -94,21 +95,6 @@
 						
 
 					}
-					// while ($calificaciones = mysqli_fetch_array($query)){
-					// 	$noCuenta = $calificaciones["noCuenta"];
-					// 	$nombres = $calificaciones["nombres"];
-					// 	$puntaje = $calificaciones["puntajeCalificacion"];
-					// 	$califParcial = $calificaciones["parcial"];
-
-					// 	if($califParcial == $parcial){
-					// 		echo "
-					// 		<tr>
-					// 			<td>$noCuenta</td>
-					// 			<td>$nombres</td>
-					// 			<td contenteditable id='puntaje'>$puntaje</td>
-					// 		</tr>";
-					// 	}//end of parcial validation						
-					// }//end of califcacion while
 				?>				
 			</tbody>
 		</table>
@@ -121,47 +107,6 @@
 ?>
 </ul>
 
-<!-- <ul class="collapsible popout" data-collapsible="accordion">
-    <li>
-      <div class="collapsible-header active"><i class="material-icons">list</i>Parcial 1</div>
-      <div class="collapsible-body">
-      	<table class='bordered highlight' id="tableCalificaciones">
-			<thead>
-				<tr>
-					<th>No. Cuenta</th>
-					<th>Nombre Alumno</th>
-					<th>Puntaje Calificación</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-				<?php
-					// while ($calificaciones = mysqli_fetch_array($query)){
-					// 	$noCuenta = $calificaciones["noCuenta"];
-					// 	$nombres = $calificaciones["nombres"];
-					// 	$puntaje = $calificaciones["puntajeCalificacion"];
-
-					// 	echo "
-					// 			<td>$noCuenta</td>
-					// 			<td>$nombres</td>
-					// 			<td contenteditable id='puntaje'>$puntaje</td>
-					// 		";
-					// }
-				?>
-				</tr>
-			</tbody>
-		</table>
-      </div>
-    </li>
-    
-    <li>
-      <div class="collapsible-header"><i class="material-icons">list</i>Parcial 3</div>
-      <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-    </li>
-  </ul> -->
-
-
-
 <script>
 
 	$(document).ready(function(){
@@ -170,17 +115,18 @@
 
 
 	$("#btnSalvar").click(function (){
-		// //recorrer cada lote de calificaciones
-		// $(".collapsible-body").each(function (index) {		
+		
+		var respuestas = "";		
 
 			//Recorrer tabla de calificaciones
 			$(".tablaCalif tbody tr").each(function (tableIndex) {
 
-				var parcialId = $(".tablaCalif").parent(".collapsible-body").children(".parcial").val();
+				var parcialId = $(this).parent("tbody").children(".parcial").val();
 			    var campo1, campo2, campo3;
 			    var noCuentas = [];
 			    var calificaciones = [];
 			    var i = 0;
+			    
 
 			    //Recorrer columnas
 			    $(this).children("td").each(function (rowIndex){
@@ -197,9 +143,9 @@
 			            
 			     if (calificaciones[i] == '')
 			     	return;
-				//alert(noCuentas[i] + ' - ' + campo2 + ' - ' + calificacion[i] +' - '+parcial); // prueba
-
-			           //pasar datos a funcion php para guardarlos
+			     //alert(parcialId);
+			    
+			    //pasar datos a funcion php para guardarlos
 			    $.ajax({
 					type: "get",
 					data: { seccionId: $("#seccionId").val(),
@@ -212,17 +158,16 @@
 					datatype: 'html'
 				}).done(function( response ) {
 
-					alert(response);
-						// var node = document.getElementById("calificaciones-contenido");
-						// while (node.firstChild){
-						//     node.removeChild( node.firstChild );
-						// }
-						// $(".secciones-calificar-contenido").append(response);
+					respuestas += response;
+					//alert(response);
+						
 					});
 
 
 			 });//end of row de tabla
 
+
+			alert("Datos guardados");
 	});
 
 

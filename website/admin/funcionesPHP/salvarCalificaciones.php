@@ -8,6 +8,8 @@
 	$seccion= mysqli_real_escape_string($conn, $_GET['seccionId']);
 	$calificaciones=  $_GET['calificaciones'];
 	$parcial = mysqli_real_escape_string($conn, $_GET['parcial']);
+	$index = 0;
+	$erorres = [];
 
 	// pasar a un solo string separado por comas
 	$cuentas = implode(", ", $cuentasArray);
@@ -28,7 +30,9 @@
 
 		foreach ($cuentasArray as $index => $cuenta) {
 
-			if ($cuenta == $cuentaUsuario){
+			if ($cuenta != $cuentaUsuario){
+				continue;
+			}
 
 				// obtener el index correspondiente a la cuenta 
 				// para que coincida con el elemento de calificaciones
@@ -51,16 +55,16 @@
 				if($puntaje["puntaje"] < 0 || $puntaje["puntaje"] == null){
 					//insertar calificacion de alumno
 					$qryInsert = mysqli_query($conn, "INSERT INTO calificaciones (seccionID, usuarioID, periodoAcademicoID, puntajeCalificacion, tipoEstadoID, parcial, fechaCreo)
-													  values  ('$seccion', '$usuarioId', '$periodo', '$calificacion ', 1, '$parcial', now() )"
+													  values  ('$seccion', '$usuarioId', '$periodo', 
+													  '$calificacion', 1, '$parcial', now() )"
 											  );
 
 					if(!$qryInsert){
-						echo "Error al guardar nota...:".mysqli_error($conn);
+						$erorres[$index] = "Error al guardar nota...:".mysqli_error($conn);
 						mysqli_close($conn);
 						return;
 					}
-
-					echo "calificacion guadada exitosamente";
+					$index++;
 
 				}else{
 					//actualizar calificacion de alumno
@@ -70,18 +74,25 @@
 														  AND usuarioID = '$usuarioId'
 														  AND parcial = '$parcial' ");
 					if (!$qryUpdate){
-						echo "error al actualizar nota.... ".mysqli_error($conn);
+						$erorres[$index] = "error al actualizar nota.... ".mysqli_error($conn);
 						mysqli_close($conn);
 						return;
 					}
-					
-					echo "calificacion guadada exitosamente";
+					$index++;
 				}
 				
-			}// end if cuenta usuario
+			
 		}// end foreach cuentas
 	}//end while
 
+	if (count($erorres) > 0){
+
+		foreach ($erorres as $key => $error) {
+			echo $error;
+		}
+	}
+	else
+		echo "calificaciones guardadas";
 
 
 
