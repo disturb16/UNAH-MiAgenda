@@ -22,12 +22,15 @@
 	// 	return;
 	// }
 ?>
-<button class="btn" id="btnSalvar">salvar datos</button>
+<div class="row">
+<button class="btn waves-effect waves-light amber lighten-1 black-text" id="btnNuevoParcial" >Agregar parcial</button> 
+<button class="btn waves-effect waves-light amber lighten-1 black-text" id="btnSalvar">salvar datos</button>
+</div>
 <input type="hidden" name="seccion" id="seccionId" value= <?php echo "'$seccionId'"; ?>  >
 <input type="hidden" name="periodo" id="periodo" value= <?php echo "'$periodo'"; ?>  >
 
 
-<ul id="contenedor-calificaciones" class="collapsible popout" data-collapsible="accordion">
+<ul id="contenedor-calificaciones " class="collapsible popout" data-collapsible="accordion">
 <?php 
 	
 	while ($parciales = mysqli_fetch_array($parcialesqry) ){
@@ -108,6 +111,7 @@
 </ul>
 
 <script>
+var respuestas = "";	
 
 	$(document).ready(function(){
 	    $('.collapsible').collapsible();
@@ -116,9 +120,9 @@
 
 	$("#btnSalvar").click(function (){
 		
-		var respuestas = "";		
+		respuestas = "";	
 
-			//Recorrer tabla de calificaciones
+			//Recorrer filas
 			$(".tablaCalif tbody tr").each(function (tableIndex) {
 
 				var parcialId = $(this).parent("tbody").children(".parcial").val();
@@ -141,7 +145,7 @@
 			        }
 			    });
 			            
-			     if (calificaciones[i] == '')
+			     if (calificaciones[i] == "")
 			     	return;
 			     //alert(parcialId);
 			    
@@ -155,23 +159,41 @@
 					    	parcial: parcialId
 					      },
 					url: "funcionesPHP/salvarCalificaciones.php",
-					datatype: 'html'
-				}).done(function( response ) {
+					datatype: 'text'
+				}).done(function( response ) {				
+					
+					if (response.length > 2)
+						alert("Error en parcial:"+parcialId+"\n"+response);
 
-					respuestas += response;
-					//alert(response);
-						
-					});
-
+					else
+						alert("Notas de parcial "+parcialId+" guardadas exitosamente");		
+                   		
+			});				
 
 			 });//end of row de tabla
 
-
-			alert("Datos guardados");
 	});
 
 
+	
+	$("#btnNuevoParcial").click( function(){
 
+			var aceptar = confirm("¿Desea agregar un nuevo parcial?");
+
+			if (!aceptar)
+				return;
+
+			$.ajax({
+			    type: "get",
+			    data: { seccionId: $("#seccionId").val()
+			    	  },
+			    url: "funcionesPHP/agregarParcial.php",
+			    datatype: 'html'
+				}).done(function( response ) {
+				    alert(response);
+				});
+
+		});
 
 
 </script>

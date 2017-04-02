@@ -8,8 +8,8 @@
 	$seccion= mysqli_real_escape_string($conn, $_GET['seccionId']);
 	$calificaciones=  $_GET['calificaciones'];
 	$parcial = mysqli_real_escape_string($conn, $_GET['parcial']);
-	$index = 0;
-	$erorres = [];
+	$i = 0;
+	$errores;
 
 	// pasar a un solo string separado por comas
 	$cuentas = implode(", ", $cuentasArray);
@@ -30,6 +30,8 @@
 
 		foreach ($cuentasArray as $index => $cuenta) {
 
+			++$i;
+
 			if ($cuenta != $cuentaUsuario){
 				continue;
 			}
@@ -45,7 +47,7 @@
 													  AND parcial = '$parcial';");
 
 				if(!$qryCalifGuardada){
-					echo "error al cargar calificaciones...:".mysqli_error($conn);
+					echo mysqli_error($conn);
 					mysqli_close($conn);
 					return;
 				}
@@ -60,11 +62,10 @@
 											  );
 
 					if(!$qryInsert){
-						$erorres[$index] = "Error al guardar nota...:".mysqli_error($conn);
-						mysqli_close($conn);
+						echo mysqli_error($conn);
+						mysqli_close($conn);			
 						return;
 					}
-					$index++;
 
 				}else{
 					//actualizar calificacion de alumno
@@ -74,27 +75,15 @@
 														  AND usuarioID = '$usuarioId'
 														  AND parcial = '$parcial' ");
 					if (!$qryUpdate){
-						$erorres[$index] = "error al actualizar nota.... ".mysqli_error($conn);
+						echo mysqli_error($conn);
 						mysqli_close($conn);
 						return;
 					}
-					$index++;
 				}
 				
 			
 		}// end foreach cuentas
 	}//end while
-
-	if (count($erorres) > 0){
-
-		foreach ($erorres as $key => $error) {
-			echo $error;
-		}
-	}
-	else
-		echo "calificaciones guardadas";
-
-
 
 	mysqli_close($conn);
 

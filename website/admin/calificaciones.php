@@ -120,12 +120,12 @@
 		      ?>
 		    </select>
 		</div>
-		<br><button class="btn amber lighten-1" id="btnNuevoParcial" >Agregar nuevo parcial</button>
+		<br>
   </div>
 
   <div class="row">
 
-  <div class="secciones-calificar-contenido col s8" id="calificaciones-contenido">
+  <div class="secciones-calificar-contenido col s10 offset-s1" id="calificaciones-contenido">
   	
   </div>
   </div>
@@ -173,14 +173,8 @@
 	<script src="js/agndFunc.js"></script>
 	<script>
 		$(document).ready(function() {
-			$('.saveScorePopUp').magnificPopup({
-				type: 'ajax',
-				alignTop:false,
-				closeOnContentClick: false
-				});
 
 			$(".button-collapse").sideNav();
-
 
 			$("#puntaje").keyup(function(){
 				var p = document.getElementById("puntaje").value;
@@ -189,49 +183,28 @@
 			});
 		});
 			
-			$('#secciones').material_select();
+		$('#secciones').material_select();
 
-			$(".secciones-calificar").change(function(){
-
-				$.ajax({
-			    type: "get",
-			    data: { seccionId: $(this).val(),
-			    		usuarioId: $("#usuarioId").val(),
-			    		periodo: $("#periodo").val() 
-			    	  },
-			    url: "funcionesPHP/getSeccionesCalificar.php",
-			    datatype: 'html'
-				}).done(function( response ) {
-				    var node = document.getElementById("calificaciones-contenido");
-				    while (node.firstChild){
-				        node.removeChild( node.firstChild );
-				    }
-				    $(".secciones-calificar-contenido").append(response);
-				});
-
-				$(this).material_select();
-			});
-
-
-		$("#btnNuevoParcial").click( function(){
-
-			var aceptar = confirm("¿Desea agregar un nuevo parcial?");
-
-			if (!aceptar)
-				return;
+		$(".secciones-calificar").change(function(){
 
 			$.ajax({
-			    type: "get",
-			    data: { seccionId: $("#seccionId").val()
-			    	  },
-			    url: "funcionesPHP/agregarParcial.php",
-			    datatype: 'html'
-				}).done(function( response ) {
-				    alert(response);
-				});
+		    type: "get",
+		    data: { seccionId: $(this).val(),
+		    		usuarioId: $("#usuarioId").val(),
+		    		periodo: $("#periodo").val() 
+		    	  },
+		    url: "funcionesPHP/getSeccionesCalificar.php",
+		    datatype: 'html'
+			}).done(function( response ) {
+			    var node = document.getElementById("calificaciones-contenido");
+			    while (node.firstChild){
+			        node.removeChild( node.firstChild );
+			    }
+			    $(".secciones-calificar-contenido").append(response);
+			});
 
-		});
-		    
+			$(this).material_select();
+		});	    
 
 		</script>
 
