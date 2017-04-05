@@ -105,3 +105,26 @@ function adicionarAlumno(usuario, seccion){
 
 			});
 }
+
+function validarSolicitud(cuenta){
+
+	if (!confirm("¿Desea crear cuenta para el usuario "+cuenta+" ?"))
+		return;
+
+	$.ajax({
+		type: "get",
+		data: { 
+			noCuenta: cuenta
+			},
+		url: "funcionesPHP/validarSolicitud.php",
+		datatype: 'html'
+		}).done(function( response ) {
+			
+			alert(response);
+			getSolicitudesCuenta();		
+
+		});
+
+
+
+}
