@@ -19,7 +19,7 @@
 	if(isset($_SESSION['userName'])){
 		mysqli_close($connn);
 		echo "<script> alert ('No pudiste iniciar porque ya hay una sesion iniciada'); </script>";
-		header("Location: testadminPanel.php");			
+		header("Location: index.php");			
 		return;
 	}
 
@@ -63,7 +63,8 @@
 
 	//Extraer datos del usuario
 	$_SESSION['tipoUsuarioID'] = $data['tipoUsuarioID'];
-	$_SESSION['usuarioID'] = $data['usuarioID'];			
+	$_SESSION['usuarioID'] = $data['usuarioID'];	
+	$_SESSION["userName"] = $data["userName"];	
 
 	mysqli_close($conn);
 
@@ -72,7 +73,7 @@
 	if ($_SESSION['tipoUsuarioID'] == 3){
 
 		ob_start(); 
-		echo "has iniciado sesion <b> $user  </b> espera un momento";
+		echo "has iniciado sesion <b> $username  </b> espera un momento";
 		header("Location: calificaciones.php");
 		ob_end_flush(); 
 	}
@@ -80,7 +81,7 @@
 	if ($_SESSION['tipoUsuarioID'] == 1) {
 		
 		ob_start(); 
-		echo "has iniciado sesion <b> $user  </b> espera un momento";
+		echo "has iniciado sesion <b> $username  </b> espera un momento";
 		echo "<script>redirecToIndex();</script>";
 		ob_end_flush(); 
 	}

@@ -57,12 +57,13 @@
 
 <head>
 
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
 	<?php echo "<title>Unah Mi Agenda - Calificaciones"." ".$usuario." </title>"; ?>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="estilos/miagndCss.css">
 	<meta charset="utf-8"><!-- scripts -->
+	<!-- <link href="uploadScoreStyle.css" rel="stylesheet" media="all"/> -->
+	<link rel="stylesheet" href="dist/magnific-popup.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>	
 
 	<style type="text/css">
@@ -91,7 +92,7 @@
         <li><a href="logOut.php">Cerrar Sesión</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
-        <li><a href="#!">Opciones</a></li>
+        <li><a href="#!">Components</a></li>
         <li><a href="logOut.php">Cerrar Sesión</a></li>
       </ul>
     </div>
@@ -102,9 +103,6 @@
       </ul>
     </div>
   </nav>
-  <div class="progress" id="procesando">
-      <div class="indeterminate"></div>
-  </div>
   <div id="calificaciones" class="col s12">
   <div class="row">
 	  	<div class="input-field col s3">
@@ -127,7 +125,7 @@
 
   <div class="row">
 
-  <div class="secciones-calificar-contenido col s9 offset-s1" id="calificaciones-contenido">
+  <div class="secciones-calificar-contenido col s10 offset-s1" id="calificaciones-contenido">
   	
   </div>
   </div>
@@ -175,14 +173,8 @@
 	<script src="js/agndFunc.js"></script>
 	<script>
 		$(document).ready(function() {
-			$('.saveScorePopUp').magnificPopup({
-				type: 'ajax',
-				alignTop:false,
-				closeOnContentClick: false
-				});
 
 			$(".button-collapse").sideNav();
-
 
 			$("#puntaje").keyup(function(){
 				var p = document.getElementById("puntaje").value;
@@ -191,49 +183,28 @@
 			});
 		});
 			
-			$('#secciones').material_select();
+		$('#secciones').material_select();
 
-			$(".secciones-calificar").change(function(){
-
-				$.ajax({
-			    type: "get",
-			    data: { seccionId: $(this).val(),
-			    		usuarioId: $("#usuarioId").val(),
-			    		periodo: $("#periodo").val() 
-			    	  },
-			    url: "funcionesPHP/getSeccionesCalificar.php",
-			    datatype: 'html'
-				}).done(function( response ) {
-				    var node = document.getElementById("calificaciones-contenido");
-				    while (node.firstChild){
-				        node.removeChild( node.firstChild );
-				    }
-				    $(".secciones-calificar-contenido").append(response);
-				});
-
-				$(this).material_select();
-			});
-
-
-		$("#btnNuevoParcial").click( function(){
-
-			var aceptar = confirm("¿Desea agregar un nuevo parcial?");
-
-			if (!aceptar)
-				return;
+		$(".secciones-calificar").change(function(){
 
 			$.ajax({
-			    type: "get",
-			    data: { seccionId: $("#seccionId").val()
-			    	  },
-			    url: "funcionesPHP/agregarParcial.php",
-			    datatype: 'html'
-				}).done(function( response ) {
-				    alert(response);
-				});
+		    type: "get",
+		    data: { seccionId: $(this).val(),
+		    		usuarioId: $("#usuarioId").val(),
+		    		periodo: $("#periodo").val() 
+		    	  },
+		    url: "funcionesPHP/getSeccionesCalificar.php",
+		    datatype: 'html'
+			}).done(function( response ) {
+			    var node = document.getElementById("calificaciones-contenido");
+			    while (node.firstChild){
+			        node.removeChild( node.firstChild );
+			    }
+			    $(".secciones-calificar-contenido").append(response);
+			});
 
-		});
-		    
+			$(this).material_select();
+		});	    
 
 		</script>
 
