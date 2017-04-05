@@ -1,5 +1,7 @@
 function getSecciones(){
 
+	$(".progress").css("display", "block");
+
 			$.ajax({
 			    type: "GET",
 			    url: "funcionesPHP/secciones.php",
@@ -10,10 +12,13 @@ function getSecciones(){
 			        node.removeChild( node.firstChild );
 			    }
 			    $("#secciones").append(response);
+			    $(".progress").css("display", "none");
 			});
 		}
 
 		function getSolicitudesCuenta(){
+
+			$(".progress").css("display", "block");
 
 			$.ajax({
 			    type: "GET",
@@ -25,10 +30,13 @@ function getSecciones(){
 			        node.removeChild( node.firstChild );
 			    }
 			    $("#solicitudes").append(response);
+			    $(".progress").css("display", "none");
 			});
 		}
 
 		function getNoticias(){
+
+			$(".progress").css("display", "block");
 
 			$.ajax({
 			    type: "GET",
@@ -40,10 +48,13 @@ function getSecciones(){
 			        node.removeChild( node.firstChild );
 			    }
 			    $("#noticias").append(response);
+			    $(".progress").css("display", "none");
 			});
 		}
 
 		function getAsignaturas(){
+
+			$(".progress").css("display", "block");
 
 			$.ajax({
 			    type: "GET",
@@ -55,10 +66,13 @@ function getSecciones(){
 			        node.removeChild( node.firstChild );
 			    }
 			    $("#asignaturas").append(response);
+			    $(".progress").css("display", "none");
 			});
 		}
 
 		function getSolicitudesSeccion(){
+
+			$(".progress").css("display", "block");
 
 			$.ajax({
 			    type: "GET",
@@ -70,10 +84,13 @@ function getSecciones(){
 			        node.removeChild( node.firstChild );
 			    }
 			    $("#tickets").append(response);
+			    $(".progress").css("display", "none");
 			});
 		}
 
 function getForma(seccionID){
+
+	$(".progress").css("display", "block");
 
 			$.ajax({
 			    type: "GET",
@@ -86,10 +103,13 @@ function getForma(seccionID){
 			        node.removeChild( node.firstChild );
 			    }
 			    $("#contenido-forma").append(response);
+			    $(".progress").css("display", "none");
 			});
 		}
 
 function adicionarAlumno(usuario, seccion){
+
+	$(".progress").css("display", "block");
 
 	$.ajax({
 			    type: "GET",
@@ -104,4 +124,29 @@ function adicionarAlumno(usuario, seccion){
 			    getForma(seccion);
 
 			});
+}
+
+function validarSolicitud(cuenta){
+
+	$(".progress").css("display", "block");
+
+	if (!confirm("¿Desea crear cuenta para el usuario "+cuenta+" ?"))
+		return;
+
+	$.ajax({
+		type: "get",
+		data: { 
+			noCuenta: cuenta
+			},
+		url: "funcionesPHP/validarSolicitud.php",
+		datatype: 'html'
+		}).done(function( response ) {
+			
+			alert(response);
+			getSolicitudesCuenta();		
+
+		});
+
+
+
 }

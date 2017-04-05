@@ -57,13 +57,12 @@
 
 <head>
 
-	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
 	<?php echo "<title>Unah Mi Agenda - Calificaciones"." ".$usuario." </title>"; ?>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="estilos/miagndCss.css">
 	<meta charset="utf-8"><!-- scripts -->
-	<!-- <link href="uploadScoreStyle.css" rel="stylesheet" media="all"/> -->
-	<link rel="stylesheet" href="dist/magnific-popup.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>	
 
 	<style type="text/css">
@@ -92,7 +91,7 @@
         <li><a href="logOut.php">Cerrar Sesión</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
-        <li><a href="#!">Components</a></li>
+        <li><a href="#!">Opciones</a></li>
         <li><a href="logOut.php">Cerrar Sesión</a></li>
       </ul>
     </div>
@@ -103,6 +102,9 @@
       </ul>
     </div>
   </nav>
+  <div class="progress" id="procesando">
+      <div class="indeterminate"></div>
+  </div>
   <div id="calificaciones" class="col s12">
   <div class="row">
 	  	<div class="input-field col s3">
@@ -125,7 +127,10 @@
 
   <div class="row">
 
-  <div class="secciones-calificar-contenido col s10 offset-s1" id="calificaciones-contenido">
+
+  <div class="secciones-calificar-contenido col s9 offset-s1" id="calificaciones-contenido">
+
+
   	
   </div>
   </div>

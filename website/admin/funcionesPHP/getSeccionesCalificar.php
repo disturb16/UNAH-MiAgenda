@@ -119,35 +119,52 @@ var respuestas = "";
 
 
 	$("#btnSalvar").click(function (){
+		 $(this).prop('disabled', true);
+		 
+		 
 		
 		respuestas = "";	
 
-			//Recorrer filas
-			$(".tablaCalif tbody tr").each(function (tableIndex) {
 
-				var parcialId = $(this).parent("tbody").children(".parcial").val();
-			    var campo1, campo2, campo3;
+			//Recorrer parciales
+			$(".tablaCalif").each(function (tableIndex) {
+
+				var parcialId = $(this).children("tbody").children(".parcial").val();
 			    var noCuentas = [];
 			    var calificaciones = [];
-			    var i = 0;
-			    
 
-			    //Recorrer columnas
-			    $(this).children("td").each(function (rowIndex){
-			        switch (rowIndex){
+			    var arrIndex = 0;
 
-			            case 0: noCuentas[i] = $(this).text();
-			                break;
-			            case 1: campo2 = $(this).text();
-			                break;
-			            case 2: calificaciones[i] = $(this).text();
-			                break;
-			        }
-			    });
-			            
-			     if (calificaciones[i] == "")
-			     	return;
-			     //alert(parcialId);
+			    //recorrer filas de parcial
+				$(this).children("tbody").children("tr").each(function (rowIndex) {	
+					$("#procesando").css({"display" : "block"});
+
+					var cta, calif;
+
+					//Recorrer columnas
+				    $(this).children("td").each(function (columnIndex){
+				        switch (columnIndex){
+
+				            case 0:
+				            	cta = $(this).text();
+				                break;
+				            
+				            case 2: 
+				            	calif = $(this).text();
+				                break;
+				        }
+				    });
+
+			     if (calif != ""){
+			     	//se usa este metodo ya que el comando exit o continue no funcionan
+			     	noCuentas[arrIndex] = cta;
+			     	calificaciones[arrIndex] = calif;
+			     	arrIndex++;
+			     }
+
+			     
+
+				});	
 			    
 			    //pasar datos a funcion php para guardarlos
 			    $.ajax({
@@ -160,22 +177,24 @@ var respuestas = "";
 					      },
 					url: "funcionesPHP/salvarCalificaciones.php",
 					datatype: 'text'
-				}).done(function( response ) {				
-					
+
+				}).done(function( response ) {	
+
+					$("#procesando").css({"display" : "none"});								
 					if (response.length > 2)
 						alert("Error en parcial:"+parcialId+"\n"+response);
 
 					else
-						alert("Notas de parcial "+parcialId+" guardadas exitosamente");		
-                   		
-			});				
+						alert("Notas de parcial "+parcialId+" guardadas exitosamente");		                   		
+				});				
 
-			 });//end of row de tabla
-
+			 });//end of tabla
+			$("#procesando").css({"display" : "block"});
+			$(this).prop('disabled', false);
 	});
 
 
-	
+
 	$("#btnNuevoParcial").click( function(){
 
 			var aceptar = confirm("¿Desea agregar un nuevo parcial?");

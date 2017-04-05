@@ -14,12 +14,15 @@
 	// pasar a un solo string separado por comas
 	$cuentas = implode(", ", $cuentasArray);
 
-
 	//obtener los ids de las cuentasde usuario
 	$userqry = mysqli_query($conn, "SELECT usuarioID
 										   ,noCuenta
 									  FROM usuarios 
-									 WHERE noCuenta in ($cuentas) ");
+									 WHERE noCuenta in ($cuentas); ");
+
+	if(!$userqry){
+		echo mysqli_error($conn);
+	}
 
 
 	//recorrer cada usuario
@@ -84,6 +87,7 @@
 			
 		}// end foreach cuentas
 	}//end while
+
 
 	mysqli_close($conn);
 

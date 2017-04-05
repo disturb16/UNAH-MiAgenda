@@ -2,7 +2,7 @@
 	session_start();
 	include("../../connection.php");
 ?>
-	<table class='bordered highlight'>
+	<table class='bordered highlight' id="solicitudesTable">
 		<thead>
 			<tr>
 				<th>No. de Cuenta</th>
@@ -13,8 +13,7 @@
 		</thead>
 		<tbody>
 <?php
-	$count = 0;
-	$fecha = 1;
+
 	$qrySolicitudes = mysqli_query($conn,"SELECT noCuenta
 												 ,nombres
 												 ,email
@@ -28,7 +27,6 @@
 	}		
 
 	while($data = mysqli_fetch_array($qrySolicitudes)){
-		++$count;
 		$cuenta = $data["noCuenta"];
 		$nombre = $data["nombres"];
 		$correo = $data["email"];
@@ -39,6 +37,7 @@
 				<td>$nombre</td>
 				<td>$correo</td>
 				<td>$fecha</td>
+				<td><button class='btn amber lighten-1' onclick='validarSolicitud($cuenta)'>Validar</button></td>
 			</tr>";
 	}
 
