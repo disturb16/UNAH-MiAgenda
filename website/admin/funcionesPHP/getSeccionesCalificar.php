@@ -120,6 +120,8 @@ var respuestas = "";
 
 	$("#btnSalvar").click(function (){
 		 $(this).prop('disabled', true);
+		 
+		 
 		
 		respuestas = "";	
 
@@ -133,7 +135,7 @@ var respuestas = "";
 
 			    //recorrer filas de parcial
 				$(this).children("tbody").children("tr").each(function (rowIndex) {	
-
+					$("#procesando").css({"display" : "block"});
 
 					var cta, calif;
 
@@ -151,7 +153,6 @@ var respuestas = "";
 				        }
 				    });
 
-				    debugger;
 			     if (calif != ""){
 			     	//se usa este metodo ya que el comando exit o continue no funcionan
 			     	noCuentas[arrIndex] = cta;
@@ -174,18 +175,18 @@ var respuestas = "";
 					      },
 					url: "funcionesPHP/salvarCalificaciones.php",
 					datatype: 'text'
-				}).done(function( response ) {				
+				}).done(function( response ) {	
+
+					$("#procesando").css({"display" : "none"});			
 					
 					if (response.length > 2)
 						alert("Error en parcial:"+parcialId+"\n"+response);
 
 					else
-						alert("Notas de parcial "+parcialId+" guardadas exitosamente");		
-                   		
+						alert("Notas de parcial "+parcialId+" guardadas exitosamente");		                   		
 				});				
 
 			 });//end of tabla
-
 			$(this).prop('disabled', false);
 	});
 

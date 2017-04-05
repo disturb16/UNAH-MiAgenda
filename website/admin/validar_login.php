@@ -1,7 +1,7 @@
 <script>
 	function redirecToIndex()
 	{
-		setTimeout("location.href='testadminPanel.php'");
+		setTimeout("location.href='index.php'");
 	}
 
 	function redireccionar()

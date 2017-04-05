@@ -55,6 +55,7 @@
 	  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
 	  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	  <link rel="stylesheet" href="estilos/miagndCss.css">
 	  <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
 
@@ -98,6 +99,12 @@
 		      </ul>
 		    </div>
 		  </nav>
+
+		  <!-- Barra de carga -->
+		  <div class="progress">
+		      <div class="indeterminate" style="width: 70%"></div>
+		  </div>
+		        
 		  <div id="secciones" class="col s12"></div>
 		  <div id="noticias" class="col s12"></div>
 		  <div id="asignaturas" class="col s12"></div>
