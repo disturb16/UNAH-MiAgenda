@@ -92,7 +92,7 @@
         <li><a href="logOut.php">Cerrar Sesión</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
-        <li><a href="#!">Components</a></li>
+        <li><a href="#!">Opciones</a></li>
         <li><a href="logOut.php">Cerrar Sesión</a></li>
       </ul>
     </div>
@@ -120,12 +120,12 @@
 		      ?>
 		    </select>
 		</div>
-		<br><button class="btn amber lighten-1" id="btnNuevoParcial" >Agregar nuevo parcial</button>
+		<br>
   </div>
 
   <div class="row">
 
-  <div class="secciones-calificar-contenido col s8" id="calificaciones-contenido">
+  <div class="secciones-calificar-contenido col s9 offset-s1" id="calificaciones-contenido">
   	
   </div>
   </div>

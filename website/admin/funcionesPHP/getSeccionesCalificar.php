@@ -22,12 +22,15 @@
 	// 	return;
 	// }
 ?>
-<button class="btn" id="btnSalvar">salvar datos</button>
+<div class="row">
+<button class="btn waves-effect waves-light amber lighten-1 black-text" id="btnNuevoParcial" >Agregar parcial</button> 
+<button class="btn waves-effect waves-light amber lighten-1 black-text" id="btnSalvar">salvar datos</button>
+</div>
 <input type="hidden" name="seccion" id="seccionId" value= <?php echo "'$seccionId'"; ?>  >
 <input type="hidden" name="periodo" id="periodo" value= <?php echo "'$periodo'"; ?>  >
 
 
-<ul id="contenedor-calificaciones" class="collapsible popout" data-collapsible="accordion">
+<ul id="contenedor-calificaciones " class="collapsible popout" data-collapsible="accordion">
 <?php 
 	
 	while ($parciales = mysqli_fetch_array($parcialesqry) ){
@@ -108,6 +111,7 @@
 </ul>
 
 <script>
+var respuestas = "";	
 
 	$(document).ready(function(){
 	    $('.collapsible').collapsible();
@@ -116,34 +120,42 @@
 
 	$("#btnSalvar").click(function (){
 		
-		var respuestas = "";		
+		respuestas = "";	
 
-			//Recorrer tabla de calificaciones
-			$(".tablaCalif tbody tr").each(function (tableIndex) {
+			//Recorrer parciales
+			$(".tablaCalif").each(function (tableIndex) {
 
-				var parcialId = $(this).parent("tbody").children(".parcial").val();
-			    var campo1, campo2, campo3;
+				var parcialId = $(this).children("tbody").children(".parcial").val();
 			    var noCuentas = [];
 			    var calificaciones = [];
-			    var i = 0;
-			    
 
-			    //Recorrer columnas
-			    $(this).children("td").each(function (rowIndex){
-			        switch (rowIndex){
+			    //recorrer filas de parcial
+				$(this).children("tbody").children("tr").each(function (rowIndex) {	
 
-			            case 0: noCuentas[i] = $(this).text();
-			                break;
-			            case 1: campo2 = $(this).text();
-			                break;
-			            case 2: calificaciones[i] = $(this).text();
-			                break;
-			        }
-			    });
-			            
-			     if (calificaciones[i] == '')
+
+					var cta, calif;
+
+					//Recorrer columnas
+				    $(this).children("td").each(function (columnIndex){
+				        switch (columnIndex){
+
+				            case 0:
+				            	cta = $(this).text();
+				                break;
+				            
+				            case 2: 
+				            	calif = $(this).text();
+				                break;
+				        }
+				    });
+
+			     if (calif == "")
 			     	return;
-			     //alert(parcialId);
+
+			     noCuentas[rowIndex] = cta;
+			     calificaciones[rowIndex] = calif
+
+				});	
 			    
 			    //pasar datos a funcion php para guardarlos
 			    $.ajax({
@@ -155,23 +167,41 @@
 					    	parcial: parcialId
 					      },
 					url: "funcionesPHP/salvarCalificaciones.php",
-					datatype: 'html'
-				}).done(function( response ) {
+					datatype: 'text'
+				}).done(function( response ) {				
+					
+					if (response.length > 2)
+						alert("Error en parcial:"+parcialId+"\n"+response);
 
-					respuestas += response;
-					//alert(response);
-						
-					});
+					else
+						alert("Notas de parcial "+parcialId+" guardadas exitosamente");		
+                   		
+				});				
 
+			 });//end of tabla
 
-			 });//end of row de tabla
-
-
-			alert("Datos guardados");
 	});
 
 
+	
+	$("#btnNuevoParcial").click( function(){
 
+			var aceptar = confirm("¿Desea agregar un nuevo parcial?");
+
+			if (!aceptar)
+				return;
+
+			$.ajax({
+			    type: "get",
+			    data: { seccionId: $("#seccionId").val()
+			    	  },
+			    url: "funcionesPHP/agregarParcial.php",
+			    datatype: 'html'
+				}).done(function( response ) {
+				    alert(response);
+				});
+
+		});
 
 
 </script>
