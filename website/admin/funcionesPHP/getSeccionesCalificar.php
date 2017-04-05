@@ -119,6 +119,7 @@ var respuestas = "";
 
 
 	$("#btnSalvar").click(function (){
+		 $(this).prop('disabled', true);
 		
 		respuestas = "";	
 
@@ -128,6 +129,7 @@ var respuestas = "";
 				var parcialId = $(this).children("tbody").children(".parcial").val();
 			    var noCuentas = [];
 			    var calificaciones = [];
+			    var arrIndex = 0;
 
 			    //recorrer filas de parcial
 				$(this).children("tbody").children("tr").each(function (rowIndex) {	
@@ -149,11 +151,15 @@ var respuestas = "";
 				        }
 				    });
 
-			     if (calif == "")
-			     	return;
+				    debugger;
+			     if (calif != ""){
+			     	//se usa este metodo ya que el comando exit o continue no funcionan
+			     	noCuentas[arrIndex] = cta;
+			     	calificaciones[arrIndex] = calif;
+			     	arrIndex++;
+			     }
 
-			     noCuentas[rowIndex] = cta;
-			     calificaciones[rowIndex] = calif
+			     
 
 				});	
 			    
@@ -180,6 +186,7 @@ var respuestas = "";
 
 			 });//end of tabla
 
+			$(this).prop('disabled', false);
 	});
 
 
