@@ -187,6 +187,7 @@ var respuestas = "";
 				});				
 
 			 });//end of tabla
+			$("#procesando").css({"display" : "block"});
 			$(this).prop('disabled', false);
 	});
 
