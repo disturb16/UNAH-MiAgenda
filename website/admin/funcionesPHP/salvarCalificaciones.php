@@ -88,7 +88,6 @@
 		}// end foreach cuentas
 	}//end while
 
-	
 
 	mysqli_close($conn);
 

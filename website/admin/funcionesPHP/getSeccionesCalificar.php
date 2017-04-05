@@ -125,12 +125,14 @@ var respuestas = "";
 		
 		respuestas = "";	
 
+
 			//Recorrer parciales
 			$(".tablaCalif").each(function (tableIndex) {
 
 				var parcialId = $(this).children("tbody").children(".parcial").val();
 			    var noCuentas = [];
 			    var calificaciones = [];
+
 			    var arrIndex = 0;
 
 			    //recorrer filas de parcial
@@ -175,10 +177,10 @@ var respuestas = "";
 					      },
 					url: "funcionesPHP/salvarCalificaciones.php",
 					datatype: 'text'
+
 				}).done(function( response ) {	
 
-					$("#procesando").css({"display" : "none"});			
-					
+					$("#procesando").css({"display" : "none"});								
 					if (response.length > 2)
 						alert("Error en parcial:"+parcialId+"\n"+response);
 
@@ -192,7 +194,7 @@ var respuestas = "";
 	});
 
 
-	
+
 	$("#btnNuevoParcial").click( function(){
 
 			var aceptar = confirm("¿Desea agregar un nuevo parcial?");
