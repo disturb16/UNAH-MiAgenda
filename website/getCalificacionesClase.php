@@ -8,14 +8,14 @@
 	$userID = mysqli_real_escape_string($conn,$obj->{'userID'});
 	$seccion = mysqli_real_escape_string($conn,$obj->{'seccion'});
 
-		$cuentaArray = mysqli_fetch_array($qryCuenta);
-		$cuenta = $cuentaArray["noCuenta"];
-		$qry = mysqli_query($conn, " SELECT c.puntajeCalificacion
-									 		,c.periodoAcademicoID
-									   FROM calificaciones c
-									  WHERE c.usuarioID =  '$userID'
-										AND c.seccionID =  '$seccion'
-									  GROUP BY c.periodoAcademicoID");
+		$qry = mysqli_query($conn, "SELECT c.puntajeCalificacion 
+										   ,c.parcial
+									  from calificaciones c
+									 where c.usuarioID = '$userID'
+									   and c.seccionID = '$seccion'
+									   and c.tipoEstadoID = 1
+									   and c.periodoAcademicoID = 1
+									order by c.parcial");
 
 
 	if (!$qry){
@@ -26,10 +26,10 @@
 	$data = '{"Scores":[{"fechaParcial":"dummy","score":"none"}';
 
 	while ($scoreData = mysqli_fetch_array($qry)) {
-		$fechaParcial = $scoreData["periodoAcademicoID"];
+		$parcial = $scoreData["parcial"];
 		$score = $scoreData["puntajeCalificacion"];
 
-		$data .= ",{'fechaParcial':'$fechaParcial','score':'$score'}";
+		$data .= ",{'parcial':'$parcial','score':'$score'}";
 	}
 
 	$data .= "]}";

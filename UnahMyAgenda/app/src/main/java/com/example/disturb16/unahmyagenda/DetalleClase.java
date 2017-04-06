@@ -3,6 +3,7 @@ package com.example.disturb16.unahmyagenda;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -32,6 +33,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -370,15 +373,14 @@ public class DetalleClase extends ActionBarActivity implements View.OnClickListe
 
     class getScore extends AsyncTask<String, String, String>{
 
-        int [] score = new int[4];
+        List<String> listaParcial = new ArrayList<>();
+        List<String> listaPuntaje = new ArrayList<>();
 
         @Override
         protected String doInBackground(String... params) {
             HttpURLConnection con = null;
             BufferedReader reader = null;
             BufferedOutputStream os = null;
-            for(int i = 0; i < 4; i++)
-                score[i] = 0;
 
             try {
 
@@ -406,6 +408,7 @@ public class DetalleClase extends ActionBarActivity implements View.OnClickListe
                 while ((line = reader.readLine()) != null) {
                     buffer.append(line);
                 }
+
                 //pasar respuesta a Json object
                 String JSONResponse =  buffer.toString();
                 JSONObject parentObject = new JSONObject(JSONResponse);
@@ -414,12 +417,9 @@ public class DetalleClase extends ActionBarActivity implements View.OnClickListe
 
                 for (int i = 1; i < ScoresArray.length();i++) {
                     JSONObject scoreData = ScoresArray.getJSONObject(i);
-                    if (scoreData.getString("fechaParcial").equals("1"))
-                        score[1] = scoreData.getInt("score");
-                    if (scoreData.getString("fechaParcial").equals("2"))
-                        score[2] = scoreData.getInt("score");
-                    if (scoreData.getString("fechaParcial").equals("3"))
-                        score[3] = scoreData.getInt("score");
+                    listaParcial.add(scoreData.getString("parcial"));
+                    listaPuntaje.add(scoreData.getString("score"));
+
                 }
 
                 return "";
@@ -454,17 +454,29 @@ public class DetalleClase extends ActionBarActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-                score1 = (TextView)findViewById(R.id.score1);
-                score2 = (TextView)findViewById(R.id.score2);
-                score3 = (TextView)findViewById(R.id.score3);
+
+                LinearLayout contenedorNotas = (LinearLayout) findViewById(R.id.linear_notasParcial);
                 scoreTotal = (TextView)findViewById(R.id.totalScore);
+                NumberFormat formatter = new DecimalFormat("#0.00");
+                double totales = 0;
+                double total = 0;
 
-                double total = (score[1] + score[2] + score[3]) / 3;
+                //Mostrar notas de parcial en pantalla
+                for(int i = 0; i < listaParcial.size(); i++ ){
+                    totales += Integer.parseInt(listaPuntaje.get(i));
 
-                score1.setText(""+ score[1] + "%");
-                score2.setText(""+ score[2] + "%");
-                score3.setText(""+ score[3] + "%");
-                scoreTotal.setText(""+total+"%");
+                    TextView puntajeTxt = new TextView(getApplicationContext());
+                    puntajeTxt.setId(i+10000);
+                    puntajeTxt.setTextSize((float) 20);
+                    int parcial = i+1;
+                    puntajeTxt.setText("Parcial "+parcial+": "+listaPuntaje.get(i)+"%");
+                    contenedorNotas.addView(puntajeTxt);
+
+                    total = totales/(i+1);
+
+                }
+
+                scoreTotal.setText(""+formatter.format(total)+"%");
         }
     }
 }

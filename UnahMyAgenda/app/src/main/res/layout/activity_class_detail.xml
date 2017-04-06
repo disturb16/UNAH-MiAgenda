@@ -287,133 +287,81 @@
         </ScrollView>
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#56010101"
-                android:id="@+id/scoresLayout"
-                android:visibility="gone"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:clickable="false"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="0dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="0dp"
+            android:id="@+id/scoresLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="false"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:background="#56010101"
+            android:clickable="false"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:visibility="gone">
 
             <android.support.v7.widget.CardView
+                android:id="@+id/scoresContainer"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:visibility="visible">
+
+                <RelativeLayout
+                    android:id="@+id/scoreContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
-                    android:id="@+id/scoresContainer"
-                    android:layout_centerVertical="true"
-                    android:visibility="visible"
-                android:layout_gravity="center_vertical">
-                    <RelativeLayout
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/titulo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Calificación de clase"
+                        android:textColor="#ff80480d"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/scoreClose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:text="X"
+                        android:textSize="30dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/totalScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/linear_notasParcial"
+                        android:layout_marginEnd="19dp"
+                        android:layout_marginRight="19dp"
+                        android:layout_toLeftOf="@+id/scoreClose"
+                        android:layout_toStartOf="@+id/scoreClose"
+                        android:gravity="center_vertical"
+                        android:text="90%"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="40dp" />
+
+                    <LinearLayout
+                        android:id="@+id/linear_notasParcial"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/scoreContainer"
-                        android:padding="10dp"
-                        android:visibility="visible">
-
-                        <TextView
-                            android:id="@+id/titulo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Calificación de clase"
-                            android:textStyle="bold"
-                            android:textSize="20dp"
-                            android:textColor="#ff80480d" />
-                        <TextView
-                            android:id="@+id/scoreClose"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="X"
-                            android:textStyle="bold"
-                            android:textSize="30dp"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true" />
-
-                        <TextView
-                            android:layout_marginTop="10dp"
-                            android:id="@+id/nota1Titulo"
-                            android:layout_below="@+id/titulo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Primer parcial"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:layout_marginTop="10dp"
-                            android:id="@+id/score1"
-                            android:layout_below="@+id/titulo"
-                            android:layout_toRightOf="@+id/nota1Titulo"
-                            android:layout_marginLeft="20dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="90%"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/nota2Titulo"
-                            android:layout_below="@+id/nota1Titulo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Segundo parcial"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:id="@+id/score2"
-                            android:layout_below="@+id/score1"
-                            android:layout_toRightOf="@+id/nota1Titulo"
-                            android:layout_marginLeft="20dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="73%"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:id="@+id/nota3Titulo"
-                            android:layout_below="@+id/nota2Titulo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tercer parcial"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:id="@+id/score3"
-                            android:layout_below="@+id/score2"
-                            android:layout_toRightOf="@+id/nota3Titulo"
-                            android:layout_marginLeft="20dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="73%"
-                            android:textSize="15dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="90%"
-                            android:id="@+id/totalScore"
-                            android:textSize="40dp"
-                            android:gravity="center_vertical"
-                            android:layout_toRightOf="@+id/titulo"
-                            android:layout_toEndOf="@+id/titulo"
-                            android:layout_alignBottom="@+id/score3"
-                            android:layout_alignTop="@+id/titulo"
-                            android:layout_marginTop="10dp" />
-                    </RelativeLayout>
-                </android.support.v7.widget.CardView>
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/titulo"
+                        android:layout_toLeftOf="@+id/totalScore"
+                        android:orientation="vertical"></LinearLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 

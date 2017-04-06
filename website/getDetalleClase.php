@@ -8,7 +8,7 @@
 	include("connection.php");
 
 	//query para obtener datos generales de la seccion
-	$qry = mysqli_query($conn, "select  asig.descripcion
+	$qry = mysqli_query($conn, "SELECT  asig.descripcion
 										,sec.seccionID
 								        ,sec.horaInicio
 								        ,sec.horaFin
