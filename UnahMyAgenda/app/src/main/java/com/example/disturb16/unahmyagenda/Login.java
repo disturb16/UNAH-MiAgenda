@@ -132,7 +132,7 @@ public class Login extends ActionBarActivity implements View.OnClickListener{
                 errCod = parentObject.getString("errCod");
 
                 //validar login
-                if (errCod.equals("1"))
+                if (errCod.equals("1")&& !userID.equals("") )
                     _logged = true;
 
                 return name;
