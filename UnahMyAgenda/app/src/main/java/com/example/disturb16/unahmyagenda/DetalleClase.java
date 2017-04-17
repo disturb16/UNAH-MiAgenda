@@ -83,6 +83,7 @@ public class DetalleClase extends ActionBarActivity implements View.OnClickListe
         btnPostData = (Button)findViewById(R.id.btnPostData);
 
         SharedPreferences userData = getSharedPreferences("user", 0);
+        userID = userData.getString("userID","");
         if (userData.getString("userType", "").equals("3")) {
             btnPostContainer.setVisibility(View.VISIBLE);
             btnPost.setOnClickListener(this);
@@ -91,7 +92,6 @@ public class DetalleClase extends ActionBarActivity implements View.OnClickListe
             catedraticoID = userData.getString("userID","");
         }
         else{
-            userID = userData.getString("userID","");
             btnPostContainer.setVisibility(View.GONE);
         }
 
