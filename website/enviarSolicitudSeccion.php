@@ -4,12 +4,15 @@ $obj = json_decode($json);
 
 $userID = $obj->{'userID'};
 $materiaID = $obj->{'materiaID'};
-$hora = $obj->{'hora'};
+$jornada = $obj->{'jornada'};
 
 include("connection.php");
 
-$qryInsert = mysqli_query($conn,"INSERT INTO solicitud_seccion (asignaturaID, usuarioID, horaSolicitada, fechaCreo, tipoEstadoID) 
-													 VALUES ('$materiaID','$userID','$hora', now(), 5)");
+$periodo = mysqli_fetch_array(mysqli_query($conn, "SELECT periodoAcademicoID from periodoAcademico where tipoEstadoID = 1"));
+$periodoID = $periodo["periodoAcademicoID"];
+
+$qryInsert = mysqli_query($conn,"INSERT INTO solicitud_seccion (asignaturaID, usuarioID, jornadaSolicitada, fechaCreo, tipoEstadoID, periodoAcademicoID) 
+													 VALUES ('$materiaID','$userID','$jornada', now(), 5, '$periodoID')");
 
 if (!$qryInsert){
 	echo "{'success':'0'}";

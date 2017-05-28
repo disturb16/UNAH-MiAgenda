@@ -31,7 +31,7 @@ import java.util.List;
 public class SolicitudSeccion extends ActionBarActivity implements View.OnClickListener {
 
     Spinner seccionSpinner, horasSpinner;
-    List<String> materiasArray, horas;
+    List<String> materiasArray, jornadas;
     List<ClassToRequest> materias;
     Button btnSendTicket;
 
@@ -39,14 +39,14 @@ public class SolicitudSeccion extends ActionBarActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_seccion);
-        //Spinner hora elements
-        horas = new ArrayList<String>();
-        for (int i = 7; i <= 12; i++){
-            horas.add(Integer.toString(i) +" AM");
-        }
-        for (int i = 1; i <= 8; i++){
-            horas.add(Integer.toString(i) +" PM");
-        }
+
+        //Spinner jornada elements
+        jornadas = new ArrayList<String>();
+
+        jornadas.add("Matutina");
+        jornadas.add("Vespertina");
+        jornadas.add("Nocturna");
+
 
         seccionSpinner = (Spinner)findViewById(R.id.seccionSpinner);
         horasSpinner = (Spinner)findViewById(R.id.horaSpinner);
@@ -55,6 +55,7 @@ public class SolicitudSeccion extends ActionBarActivity implements View.OnClickL
 
         btnSendTicket = (Button) findViewById(R.id.btnSendTicket);
         btnSendTicket.setOnClickListener(this);
+        btnSendTicket.setEnabled(false);
     }
 
     @Override
@@ -87,10 +88,11 @@ public class SolicitudSeccion extends ActionBarActivity implements View.OnClickL
 
                 int position = seccionSpinner.getSelectedItemPosition();
                 String materiaID = materias.get(position).materiaID;
-                String horaToRequest = horasSpinner.getSelectedItem().toString();
+                int jornadaPosition = horasSpinner.getSelectedItemPosition() + 1;
+                String jornadaToRequest = Integer.toString(jornadaPosition );
                 String url = "http://unahmiagenda.000webhostapp.com/enviarSolicitudSeccion.php";
-
-                new enviarSolicitudSeccion().execute(url,userID,materiaID,horaToRequest);
+                btnSendTicket.setEnabled(false);
+                new enviarSolicitudSeccion().execute(url,userID,materiaID,jornadaToRequest);
 
                 break;
         }
@@ -113,7 +115,7 @@ public class SolicitudSeccion extends ActionBarActivity implements View.OnClickL
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("userID", params[1]);
                 jsonObject.put("materiaID", params[2]);
-                jsonObject.put("hora", params[3]);
+                jsonObject.put("jornada", params[3]);
                 String message = jsonObject.toString();
 
                 con.setDoOutput(true);
@@ -270,9 +272,9 @@ public class SolicitudSeccion extends ActionBarActivity implements View.OnClickL
             ArrayAdapter<String> seccionAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_style_item1,materiasArray);
             seccionSpinner.setAdapter(seccionAdapter);
 
-            ArrayAdapter<String> horaAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_style_item1, horas);
+            ArrayAdapter<String> horaAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_style_item1, jornadas);
             horasSpinner.setAdapter(horaAdapter);
-
+            btnSendTicket.setEnabled(true);
         }
     }
 

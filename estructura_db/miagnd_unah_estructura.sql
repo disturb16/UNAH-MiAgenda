@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `miagnd_unah`.`usuarios` (
   `noCuenta` BIGINT(20) NOT NULL,
   `fechaNacimiento` DATETIME NOT NULL,
   `tipoUsuarioID` INT NOT NULL,
-  `profilePicture` LONGTEXT CHARACTER SET 'latin1' NULL DEFAULT 'imagenes/perfil_pictures/perfil_no_photo.png',
+  `profilePicture` varchar(500) NULL DEFAULT 'imagenes/perfil_pictures/perfil_no_photo.png',
   `fechaCreo` DATETIME NOT NULL,
   `fechaElimino` DATETIME NULL,
   `usuarioElimino` INT NULL,
@@ -630,6 +630,32 @@ CREATE TABLE IF NOT EXISTS `miagnd_unah`.`seccion_parcial` (
   CONSTRAINT `fkParcialEstado`
     FOREIGN KEY (`tipoEstadoID`)
     REFERENCES `miagnd_unah`.`tipo_estado` (`tipoEstadoID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `miagnd_unah`.`tipo_jornada`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `miagnd_unah`.`tipo_jornada` (
+  `tipoJornadaID` INT NOT NULL AUTO_INCREMENT,
+  `descripcion` VARCHAR(45) NULL,
+  `tipoEstadoID` INT NOT NULL,
+  `fechaCreo` DATETIME NOT NULL,
+  `fechaElimino` DATETIME NULL,
+  `usuarioElimino` INT NULL,
+  PRIMARY KEY (`tipoJornadaID`),
+  INDEX `tipoJornadaEstado_idx` (`tipoEstadoID` ASC),
+  INDEX `tipoJornadaUsuarioElimino_idx` (`usuarioElimino` ASC),
+  CONSTRAINT `tipoJornadaEstado`
+    FOREIGN KEY (`tipoEstadoID`)
+    REFERENCES `miagnd_unah`.`tipo_estado` (`tipoEstadoID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `tipoJornadaUsuarioElimino`
+    FOREIGN KEY (`usuarioElimino`)
+    REFERENCES `miagnd_unah`.`usuarios` (`usuarioID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
