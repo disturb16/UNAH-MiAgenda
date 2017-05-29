@@ -112,12 +112,12 @@
 		      <option value="" disabled selected>Elija una sección</option>
 		      <?php
 
-		      	while($secciones = mysqli_fetch_array($qrySecciones)){
+		      	foreach ($qrySecciones as $secciones) {
 		      		$id = $secciones["seccionID"];
 		      		$seccion = $secciones["seccion"];
 		      		$asignatura = $secciones["asignatura"];
 		      		echo "<option value='$id'>$seccion - $asignatura</option>";
-		      	}
+		      	 }
 
 		      ?>
 		    </select>
@@ -126,21 +126,37 @@
   </div>
 
   <div class="row">
-
-
-  <div class="secciones-calificar-contenido col s9 offset-s1" id="calificaciones-contenido">
-
-
-  	
+ 	<div class="secciones-calificar-contenido col s9 offset-s1" id="calificaciones-contenido"></div>
   </div>
-  </div>
+
   </div><!-- Fin de calificaciones -->
 
 
+  <div id="mensajes" class="row col s12">
 
+  	<div class="row">
+	  	<div class="input-field col s3">
+		    <select class="secciones-mensaje" id="">
+		      <option value="" disabled selected>Elija una sección</option>
+		      <?php
 
+		      	foreach ($qrySecciones as $secciones) {
+		      		$id = $secciones["seccionID"];
+		      		$seccion = $secciones["seccion"];
+		      		$asignatura = $secciones["asignatura"];
+		      		echo "<option value='$id'>$seccion - $asignatura</option>";
+		      	 }
+		      ?>
+		    </select>
+		</div>
+		<br>
+  	</div>
 
-  <div id="mensajes" class="col s12"></div>
+  	<div class="row">
+	 	<div class="secciones-mensaje-contenido col s9 offset-s1" id="mensajes-contenido"></div>
+	</div>
+
+  </div>
 
 <input type="hidden" name="usuario" id="usuarioId" value=<?php echo "'$usuarioId'"; ?> />
 <input type="hidden" name="periodo" id="periodo" value= <?php echo "'$periodoAcademicoID'"; ?>  >
@@ -188,7 +204,7 @@
 			});
 		});
 			
-		$('#secciones').material_select();
+		$('select').material_select();
 
 		$(".secciones-calificar").change(function(){
 
@@ -206,6 +222,25 @@
 			        node.removeChild( node.firstChild );
 			    }
 			    $(".secciones-calificar-contenido").append(response);
+			});
+
+			$(this).material_select();
+		});	
+
+		$(".secciones-mensaje").change(function(){
+
+			$.ajax({
+		    type: "get",
+		    data: { seccionId: $(this).val()
+		    	  },
+		    url: "funcionesPHP/getSeccionesPublicacion.php",
+		    datatype: 'html'
+			}).done(function( response ) {
+			    var node = document.getElementById("mensajes-contenido");
+			    while (node.firstChild){
+			        node.removeChild( node.firstChild );
+			    }
+			    $(".secciones-mensaje-contenido").append(response);
 			});
 
 			$(this).material_select();
